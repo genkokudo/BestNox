@@ -56,16 +56,16 @@ namespace BestNox
             // MySQL.Data.EntityFrameworkCoreはバグっているので
             // Pomelo.EntityFrameworkCore.MySqlを使用する。
             services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseMySql(Configuration.GetConnectionString("DebugConnection"),
+            options.UseMySql(Configuration.GetConnectionString(SystemConstants.Connection),
                 mySqlOptions =>
                 {
                     mySqlOptions.ServerVersion(new Version(10, 3, 13), ServerType.MariaDb);
                 }
-            ));
+            )); 
 
-            //// ユーザ認証に使用するデータを指定？が2.2になって無くなっている
-            //services.AddDefaultIdentity<IdentityUser>()
-            //    .AddEntityFrameworkStores<ApplicationDbContext>();
+            // ユーザ認証に使用するデータを指定
+            services.AddDefaultIdentity<IdentityUser>()
+                .AddEntityFrameworkStores<ApplicationDbContext>();
 
             // RazorPagesを使用する設定
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
