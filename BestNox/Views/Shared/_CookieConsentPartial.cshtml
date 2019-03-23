@@ -1,0 +1,28 @@
+﻿@* クッキーに関する表示と動作 *@
+@using Microsoft.AspNetCore.Http.Features
+
+@{
+    var consentFeature = Context.Features.Get<ITrackingConsentFeature>();
+    var showBanner = !consentFeature?.CanTrack ?? false;
+    var cookieString = consentFeature?.CreateConsentCookie();
+}
+
+@* TODO:どんな条件で表示するのかな？ *@
+@if (showBanner)
+{
+<div id="cookieConsent" class="alert alert-info alert-dismissible fade show" role="alert">
+    ここに貴方のプライバシーポリシーとクッキーポリシーを書きなさい。 <a asp-area="" asp-controller="Home" asp-action="Privacy">詳細キボンヌ</a>.
+    <button type="button" class="accept-policy close" data-dismiss="alert" aria-label="Close" data-cookie-string="@cookieString">
+        <span aria-hidden="true">激しく同意する</span>
+    </button>
+</div>
+    <script>
+        (function () {
+            // 承認ボタンを押したとき
+            var button = document.querySelector("#cookieConsent button[data-cookie-string]");
+            button.addEventListener("click", function (event) {
+                document.cookie = button.dataset.cookieString;
+            }, false);
+        })();
+    </script>
+}
