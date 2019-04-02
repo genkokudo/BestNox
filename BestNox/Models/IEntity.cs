@@ -1,0 +1,38 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace BestNox.Models
+{
+    /// <summary>
+    /// 登録日時、更新日時の自動設定を行うためのインタフェース
+    /// </summary>
+    public interface IEntity
+    {
+        /// <summary>
+        /// 登録者
+        /// </summary>
+        int? CreatedBy { get; set; }
+
+        /// <summary>
+        /// 登録日時
+        /// </summary>
+        DateTime? CreatedDate { get; set; }
+
+        /// <summary>
+        /// 更新者
+        /// </summary>
+        int? UpdatedBy { get; set; }
+
+        /// <summary>
+        /// 更新日時
+        /// </summary>
+        DateTime? UpdatedDate { get; set; }
+
+        /// <summary>
+        /// 論理削除フラグ
+        /// </summary>
+        bool IsDeleted { get; set; }
+    }
+}
