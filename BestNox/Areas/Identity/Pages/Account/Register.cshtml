@@ -1,0 +1,49 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "秘密基地メンバー登録";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+            <h4>面白そうな組織なので私も加担したいです！</h4>
+            <hr />
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Input.UserName">UserName - 後で変更できます！</label>
+                <input asp-for="Input.UserName" class="form-control" />
+                <span asp-validation-for="Input.UserName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Input.Password">Password - どこぞのシステムと違って平文保存していませんが、その証拠は見せられません。</label>
+                <input asp-for="Input.Password" class="form-control" />
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.ConfirmPassword">Password確認 - 上と同じパスワードを入力してください。</label>
+                <input asp-for="Input.ConfirmPassword" class="form-control" />
+                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+            </div>
+            <!-- 管理者権限付与、普段は封印すること -->
+            <!--
+    <div class="form-group">
+        <div class="checkbox">
+            <label asp-for="Input.IsAdministrator">
+                <input asp-for="Input.IsAdministrator" />
+                @Html.DisplayNameFor(m => m.Input.IsAdministrator)
+            </label>
+        </div>
+    </div>
+        -->
+            <button type="submit" class="btn btn-primary">これでOK！</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

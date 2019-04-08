@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using BestNox.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BestNox.Controllers
 {
@@ -24,12 +25,37 @@ namespace BestNox.Controllers
 
         /// <summary>
         /// プライバシーポリシー
-        /// 詳細キボンヌボタンからリンクされている
         /// </summary>
         /// <returns></returns>
         public IActionResult Privacy()
         {
             return View();
+        }
+
+        /// <summary>
+        /// プライバシーポリシー
+        /// </summary>
+        /// <returns></returns>
+        public IActionResult Aaaa()
+        {
+            return View("Index");
+        }
+
+        public IActionResult Bbbb(int id, string ananid)
+        {
+            // だめ
+            var model = new {
+                Id = id,
+                Ananid = ananid
+            };
+            
+            return View("Index", model);
+        }
+
+        public IActionResult Cccc()
+        {
+            ViewData["Message"] = "Ccccメソッドを呼んだよ。";
+            return View("Index");
         }
 
         /// <summary>

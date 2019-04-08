@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -20,45 +21,50 @@ namespace BestNox.Models
         /// <summary>
         /// 分類ID
         /// </summary>
-        [Required]
+        [Required, DisplayName("分類ID")]
         public int CategoryId { get; set; }
 
         /// <summary>
-        /// 選択する場合の表示順序
+        /// 選択肢の表示順序
         /// </summary>
-        [Required]
+        [Required, DisplayName("選択肢の表示順序")]
         public int OrderNo { get; set; }
 
         /// <summary>
-        /// 値
+        /// 設定値
         /// </summary>
-        [Required, Column(TypeName = "text")]
+        [Required, DisplayName("設定値"), Column(TypeName = "text")]
         public string CurrentValue { get; set; }
 
         #region 共通項目
         /// <summary>
         /// 登録者
         /// </summary>
+        [DisplayName("登録者")]
         public int? CreatedBy { get; set; }
 
         /// <summary>
         /// 登録日時
         /// </summary>
+        [DisplayName("登録日時")]
         public DateTime? CreatedDate { get; set; }
 
         /// <summary>
         /// 更新者
         /// </summary>
+        [DisplayName("更新者")]
         public int? UpdatedBy { get; set; }
 
         /// <summary>
         /// 更新日時
         /// </summary>
+        [DisplayName("更新日時")]
         public DateTime? UpdatedDate { get; set; }
 
         /// <summary>
         /// 論理削除フラグ
         /// </summary>
+        [DisplayName("論理削除")]
         public bool IsDeleted { get; set; }
         #endregion
     }

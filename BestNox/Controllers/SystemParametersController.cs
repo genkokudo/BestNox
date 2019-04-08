@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BestNox.Data;
 using BestNox.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BestNox.Controllers
 {
+    [Authorize(Roles = SystemConstants.Administrator)]
     public class SystemParametersController : Controller
     {
         private readonly ApplicationDbContext _context;

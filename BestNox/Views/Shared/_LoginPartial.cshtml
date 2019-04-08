@@ -1,16 +1,16 @@
-<!-- ƒƒjƒ…[‚ÌƒƒOƒCƒ“‚Ì•”•ª‚ğ‹Lq -->
+ï»¿<!-- ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã®ãƒ­ã‚°ã‚¤ãƒ³ã®éƒ¨åˆ†ã‚’è¨˜è¿° -->
 @using Microsoft.AspNetCore.Identity
-<!-- ƒCƒ“ƒWƒFƒNƒVƒ‡ƒ“İ’èFƒRƒ“ƒeƒi‚©‚ç©“®“I‚Éî•ñ‚ª‘—‚ç‚ê‚Ä‚­‚é -->
+<!-- ã‚¤ãƒ³ã‚¸ã‚§ã‚¯ã‚·ãƒ§ãƒ³è¨­å®šï¼šã‚³ãƒ³ãƒ†ãƒŠã‹ã‚‰è‡ªå‹•çš„ã«æƒ…å ±ãŒé€ã‚‰ã‚Œã¦ãã‚‹ -->
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
 
 <ul class="navbar-nav">
     @if (SignInManager.IsSignedIn(User))
     {
-        // ƒTƒCƒ“ƒCƒ“‚µ‚Ä‚¢‚éê‡
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
-        </li>
+        // ã‚µã‚¤ãƒ³ã‚¤ãƒ³ã—ã¦ã„ã‚‹å ´åˆ
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">@User.Identity.Name æ§˜ã«æ•¬ç¤¼ï¼</a>
+    </li>
         <li class="nav-item">
             <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
                 <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
@@ -19,7 +19,7 @@
     }
     else
     {
-        // ƒTƒCƒ“ƒCƒ“‚µ‚Ä‚¢‚È‚¢ê‡
+        // ã‚µã‚¤ãƒ³ã‚¤ãƒ³ã—ã¦ã„ãªã„å ´åˆ
         <li class="nav-item">
             <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
         </li>

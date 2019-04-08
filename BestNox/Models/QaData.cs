@@ -1,6 +1,7 @@
 ﻿using EfCore.Shaman;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -67,27 +68,31 @@ namespace BestNox.Models
         /// <summary>
         /// 登録者
         /// </summary>
-        [Index]
+        [Index, DisplayName("登録者")]
         public int? CreatedBy { get; set; }
 
         /// <summary>
         /// 登録日時
         /// </summary>
+        [DisplayName("登録日時")]
         public DateTime? CreatedDate { get; set; }
 
         /// <summary>
         /// 更新者
         /// </summary>
+        [DisplayName("更新者")]
         public int? UpdatedBy { get; set; }
 
         /// <summary>
         /// 更新日時
         /// </summary>
+        [DisplayName("更新日時")]
         public DateTime? UpdatedDate { get; set; }
 
         /// <summary>
         /// 論理削除フラグ
         /// </summary>
+        [DisplayName("論理削除")]
         public bool IsDeleted { get; set; }
         #endregion
     }

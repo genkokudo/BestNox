@@ -4,13 +4,14 @@ using System.Linq;
 using System.Text;
 using BestNox.Models;
 using EfCore.Shaman;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace BestNox.Data
 {
     // データモデルを追加したとき、このクラスも更新すること
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<IdentityUser, IdentityRole, string>
     {
         public DbSet<QaData> QaDatas { get; set; }
         public DbSet<DailyRecord> DailyRecords { get; set; }

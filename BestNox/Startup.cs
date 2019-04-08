@@ -43,10 +43,11 @@ namespace BestNox
         /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
+            
             services.Configure<CookiePolicyOptions>(options =>
             {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-                options.CheckConsentNeeded = context => true;
+                // このラムダは、必須ではないCookieに対するユーザーの同意が特定のリクエストに必要かどうかを決定します。
+                options.CheckConsentNeeded = context => false;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
@@ -66,10 +67,13 @@ namespace BestNox
             // デフォルトUI
             // UI画面を自作しない場合、この設定でデフォルトのRegisterページUIが設定される
             // ユーザ認証に使用するデータを指定
-            services.AddDefaultIdentity<IdentityUser>()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            // 権限を使用するように設定
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultUI();
 
             // RazorPagesを使用する設定
+            // RazorPagesの設定なので、Pagesフォルダじゃないと適用されない。
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
@@ -103,9 +107,6 @@ namespace BestNox
             // /wwwroot/css/site.css というファイルに対しては http://..../css/site.css という URL でアクセスを行うことができる。
             app.UseStaticFiles();
 
-            // cookieポリシーを使用する
-            app.UseCookiePolicy();
-
             // ユーザ認証を行う
             app.UseAuthentication();
 
@@ -118,6 +119,10 @@ namespace BestNox
                     template: "{controller=Home}/{action=Index}/{id?}");    // URIパターン(デフォルト値付きで設定、defalts:パラメータは使用しない)
                 // id?は任意に設定できるパラメータとなる
             });
+
+            // cookieポリシーを使用する
+            // これをUseMvc()より前に書くと、クライアントに提供するCookieが渡されないのでセッションが維持できない。
+            app.UseCookiePolicy();
         }
     }
 }

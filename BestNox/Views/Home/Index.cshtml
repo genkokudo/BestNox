@@ -1,14 +1,43 @@
-﻿@* トップページ *@
+﻿@using BestNox;
+@* トップページ *@
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = SystemConstants.Title;
 }
-<div class="jumbotron" style="background:url(images/ayameike.png); background-size:cover;">
+<!-- ログインや権限によって表示を分岐する -->
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+<div class="jumbotron" style="background:url(/images/ayameike.png); background-size:cover;">
     <h1 class="display-4">BestNoxへようこそ！</h1>
     <p class="lead">どうぞおくつろぎください</p>
 </div>
+@if (SignInManager.IsSignedIn(User))
+{
+    <h2>メニュー</h2>
+    // サインインしている場合
+    <div class="form-group">
+        <a asp-controller="Home" asp-action="Aaaa">謎のアンカー</a>
+        <form method="post">
+            <button asp-controller="Home" asp-action="Bbbb" asp-route-id="1234" asp-route-ananid="ananan" class="btn btn-primary">謎のボタンBbbb</button>
+        </form>
+        <form method="post">
+            <button asp-controller="Home" asp-action="Cccc" class="btn btn-primary">謎のボタンCccc</button>
+        </form>
+    </div>
+
+    if (User.IsInRole(SystemConstants.Administrator))
+    {
+        <h2>管理者用メニュー</h2>
+        <form method="post">
+            <button asp-controller="SystemParameters" asp-action="Index" class="btn btn-primary">システムパラメータメンテナンス</button>
+        </form>
+    }
+}
+@ViewData["Message"]
+@ViewBag.Message
 <div class="card-deck">
     <div class="card border-primary shadow">
-        <img class="card-img-top" src="images/jiji.png" alt="Card image cap">
+        <img class="card-img-top" src="~/images/jiji.png" alt="Card image cap">
         <div class="card-header"> じぃじぃ♂：ここはどこですか？ </div>
         <div class="card-body">
             <h4>BestNoxの秘密基地です</h4>
@@ -16,7 +45,7 @@
         </div>
     </div>
     <div class="card border-primary shadow">
-        <img class="card-img-top" src="images/tai.png" alt="Card image cap">
+        <img class="card-img-top" src="~/images/tai.png" alt="Card image cap">
         <div class="card-header"> たいすけ♂：BestNoxって何ですか？ </div>
         <div class="card-body">
             <h4>影の組織です</h4>
@@ -24,7 +53,7 @@
         </div>
     </div>
     <div class="card border-primary shadow">
-        <img class="card-img-top" src="images/tango.png" alt="Card image cap">
+        <img class="card-img-top" src="~/images/tango.png" alt="Card image cap">
         <div class="card-header"> たんご♂：目的は何ですか？ </div>
         <div class="card-body">
             <h4>単純労働を消すことです</h4>
