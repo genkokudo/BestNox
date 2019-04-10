@@ -13,7 +13,7 @@ namespace BestNox.Models
         /// <summary>
         /// 登録者
         /// </summary>
-        int? CreatedBy { get; set; }
+        string CreatedBy { get; set; }
 
         /// <summary>
         /// 登録日時
@@ -23,7 +23,7 @@ namespace BestNox.Models
         /// <summary>
         /// 更新者
         /// </summary>
-        int? UpdatedBy { get; set; }
+        string UpdatedBy { get; set; }
 
         /// <summary>
         /// 更新日時

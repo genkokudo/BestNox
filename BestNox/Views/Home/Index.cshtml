@@ -16,13 +16,28 @@
     <h2>メニュー</h2>
     // サインインしている場合
     <div class="form-group">
-        <a asp-controller="Home" asp-action="Aaaa">謎のアンカー</a>
         <form method="post">
-            <button asp-controller="Home" asp-action="Bbbb" asp-route-id="1234" asp-route-ananid="ananan" class="btn btn-primary">謎のボタンBbbb</button>
+            <button asp-controller="DailyRecord" asp-action="Index" class="btn btn-primary">日報</button>
         </form>
+        <br>
         <form method="post">
-            <button asp-controller="Home" asp-action="Cccc" class="btn btn-primary">謎のボタンCccc</button>
+            <button asp-controller="UploadFile" asp-action="Index" class="btn btn-primary">アップローダ</button>
         </form>
+        <br>
+        <form method="post">
+            <button asp-controller="QaData" asp-action="Index" class="btn btn-primary">オンラインメモ</button>
+        </form>
+        <br>
+        <p class="lead">以下アイデア</p>
+        <p class="lead">工数登録：余裕があれば追加</p>
+        <p class="lead">コードジェネレータ：やるなら簡単なもののみ。DNTの機能全部載せるのは無理。</p>
+        <p class="lead">GoogleAPIを使った何か：面白そうだしTypeScriptを活かすチャンス！何かない？</p>
+        <p class="lead">経費まとめ：頑張りましょう</p>
+        <p class="lead">リンク集：頑張りましょう</p>
+        <p class="lead">ブログ的なもの：やるなら別サイト</p>
+        <p class="lead">ゲームコーナー：やるなら別サイト、できたらいいね</p>
+        <p class="lead">APIでデータ収集してグラフ表示：やるなら裏サイト</p>
+        <p class="lead">とりっっちステータス表示：やるなら裏サイト</p>
     </div>
 
     if (User.IsInRole(SystemConstants.Administrator))
@@ -32,6 +47,7 @@
             <button asp-controller="SystemParameters" asp-action="Index" class="btn btn-primary">システムパラメータメンテナンス</button>
         </form>
     }
+    <br>
 }
 @ViewData["Message"]
 @ViewBag.Message

@@ -22,27 +22,27 @@ namespace BestNox.Models
         /// <summary>
         /// 記事の日付
         /// </summary>
-        [Required]
+        [Required, DisplayName("日付")]
         public DateTime? DocumentDate { get; set; }
 
         /// <summary>
         /// タイトル
         /// </summary>
-        [Required, Column(TypeName = "text"), StringLength(50)]
+        [Required, DisplayName("タイトル"), Column(TypeName = "text"), StringLength(50)]
         public string Title { get; set; }
 
         /// <summary>
         /// 本文
         /// </summary>
-        [Required, Column(TypeName = "text")]
+        [Required, DisplayName("本文"), Column(TypeName = "text")]
         public string Detail { get; set; }
 
         #region 共通項目
         /// <summary>
         /// 登録者
         /// </summary>
-        [Index, DisplayName("登録者")]
-        public int? CreatedBy { get; set; }
+        [Index, DisplayName("登録者"), StringLength(255)]
+        public string CreatedBy { get; set; }
 
         /// <summary>
         /// 登録日時
@@ -53,8 +53,8 @@ namespace BestNox.Models
         /// <summary>
         /// 更新者
         /// </summary>
-        [DisplayName("更新者")]
-        public int? UpdatedBy { get; set; }
+        [DisplayName("更新者"), StringLength(255)]
+        public string UpdatedBy { get; set; }
 
         /// <summary>
         /// 更新日時

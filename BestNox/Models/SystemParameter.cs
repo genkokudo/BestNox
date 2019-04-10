@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -27,7 +28,7 @@ namespace BestNox.Models
         /// <summary>
         /// 選択肢の表示順序
         /// </summary>
-        [Required, DisplayName("選択肢の表示順序")]
+        [Required, DisplayName("選択肢の表示順序（若い順）")]
         public int OrderNo { get; set; }
 
         /// <summary>
@@ -40,8 +41,8 @@ namespace BestNox.Models
         /// <summary>
         /// 登録者
         /// </summary>
-        [DisplayName("登録者")]
-        public int? CreatedBy { get; set; }
+        [DisplayName("登録者"), StringLength(255)]
+        public string CreatedBy { get; set; }
 
         /// <summary>
         /// 登録日時
@@ -52,8 +53,8 @@ namespace BestNox.Models
         /// <summary>
         /// 更新者
         /// </summary>
-        [DisplayName("更新者")]
-        public int? UpdatedBy { get; set; }
+        [DisplayName("更新者"), StringLength(255)]
+        public string UpdatedBy { get; set; }
 
         /// <summary>
         /// 更新日時

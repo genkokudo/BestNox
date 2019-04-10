@@ -21,19 +21,24 @@ namespace BestNox.Models
         /// <summary>
         /// コメント
         /// </summary>
-        [Required]
         public string Comment { get; set; }
 
         /// <summary>
-        /// ファイル名
+        /// 元ファイル名
         /// </summary>
-        [Required]
+        [Required, DisplayName("元ファイル名")]
         public string Filename { get; set; }
+
+        /// <summary>
+        /// 格納ファイル名
+        /// </summary>
+        [Required, DisplayName("格納ファイル名")]
+        public string TmpFilename { get; set; }
 
         /// <summary>
         /// 公開設定
         /// </summary>
-        [Required]
+        [Required, DisplayName("公開")]
         public int IsPublic { get; set; }
 
         /// <summary>
@@ -45,8 +50,8 @@ namespace BestNox.Models
         /// <summary>
         /// 登録者
         /// </summary>
-        [Index, DisplayName("登録者")]
-        public int? CreatedBy { get; set; }
+        [Index, DisplayName("登録者"), StringLength(255)]
+        public string CreatedBy { get; set; }
 
         /// <summary>
         /// 登録日時
@@ -57,8 +62,8 @@ namespace BestNox.Models
         /// <summary>
         /// 更新者
         /// </summary>
-        [DisplayName("更新者")]
-        public int? UpdatedBy { get; set; }
+        [DisplayName("更新者"), StringLength(255)]
+        public string UpdatedBy { get; set; }
 
         /// <summary>
         /// 更新日時

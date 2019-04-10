@@ -24,7 +24,7 @@ namespace BestNox.Controllers
         // GET: SystemParameters
         public async Task<IActionResult> Index()
         {
-            return View(await _context.SystemParameters.ToListAsync());
+            return View(await _context.SystemParameters.Where(d => !d.IsDeleted).OrderBy(d => d.OrderNo).OrderBy(d => d.CategoryId).ToListAsync());
         }
 
         // GET: SystemParameters/Details/5
@@ -61,7 +61,7 @@ namespace BestNox.Controllers
             if (ModelState.IsValid)
             {
                 _context.Add(systemParameter);
-                await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync(User.Identity.Name);
                 return RedirectToAction(nameof(Index));
             }
             return View(systemParameter);
@@ -100,7 +100,7 @@ namespace BestNox.Controllers
                 try
                 {
                     _context.Update(systemParameter);
-                    await _context.SaveChangesAsync();
+                    await _context.SaveChangesAsync(User.Identity.Name);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -143,7 +143,7 @@ namespace BestNox.Controllers
         {
             var systemParameter = await _context.SystemParameters.FindAsync(id);
             _context.SystemParameters.Remove(systemParameter);
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(User.Identity.Name);
             return RedirectToAction(nameof(Index));
         }
 

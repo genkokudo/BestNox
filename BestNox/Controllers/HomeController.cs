@@ -33,32 +33,6 @@ namespace BestNox.Controllers
         }
 
         /// <summary>
-        /// プライバシーポリシー
-        /// </summary>
-        /// <returns></returns>
-        public IActionResult Aaaa()
-        {
-            return View("Index");
-        }
-
-        public IActionResult Bbbb(int id, string ananid)
-        {
-            // だめ
-            var model = new {
-                Id = id,
-                Ananid = ananid
-            };
-            
-            return View("Index", model);
-        }
-
-        public IActionResult Cccc()
-        {
-            ViewData["Message"] = "Ccccメソッドを呼んだよ。";
-            return View("Index");
-        }
-
-        /// <summary>
         /// エラーページ
         /// 応答キャッシュなし（特定ページのキャッシュを無効にする）
         /// </summary>

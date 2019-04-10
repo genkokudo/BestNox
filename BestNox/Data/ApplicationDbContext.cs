@@ -2,11 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using BestNox.Models;
 using EfCore.Shaman;
+using JetBrains.Annotations;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace BestNox.Data
 {
@@ -20,38 +24,40 @@ namespace BestNox.Data
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
-        {
+        {            
         }
 
-        // 保存時の処理
-        public override int SaveChanges()
+        #region 標準項目設定
+        public Task<int> SaveChangesAsync(string name, CancellationToken cancellationToken = default(CancellationToken))
         {
             // 保存時に日時を設定する
-            SetCreatedDateTime();
+            SetCreatedDateTime(name);
 
-            return base.SaveChanges();
+            return base.SaveChangesAsync(cancellationToken);
         }
 
-        private void SetCreatedDateTime()
+        private void SetCreatedDateTime(string name)
         {
             DateTime now = DateTime.Now;
 
             // 追加エンティティのうち、IEntity を実装したものを抽出
-            var entities = this.ChangeTracker.Entries()
-                .Where(e => e.State == EntityState.Added)
+            var entities = ChangeTracker.Entries()
+                .Where(e => e.State == EntityState.Added || e.State == EntityState.Modified)
                 .Select(e => e.Entity)
                 .OfType<IEntity>();
 
             foreach (var entity in entities)
             {
                 entity.UpdatedDate = now;
+                entity.UpdatedBy = name;
                 if (entity.CreatedDate is null)
                 {
                     entity.CreatedDate = now;
+                    entity.CreatedBy = name;
                 }
-                // TODO:ユーザIDも保存すること
             }
         }
+        #endregion
 
         /// <summary>
         /// EfCore shamanを使用する設定
