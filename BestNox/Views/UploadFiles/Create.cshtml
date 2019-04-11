@@ -1,0 +1,45 @@
+﻿@model BestNox.Models.UploadFile
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>新規</h1>
+
+<h4>アップロード</h4>
+<p>アップロードできるのは約28.6MBまでです。多分。</p>
+<p>ファイルの長さは最大50文字程度にしてください。</p>
+<p>コメントは最大200文字程度にしてください。</p>
+<p>公開設定にチェックを入れた場合、直接参照用アドレスが表示されます。これを参照してWebに公開できます。</p>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <p>複数のファイルを選択できます。</p>
+                <input type="file" name="files" multiple /><!-- ファイル選択ボタン -->
+                <p class="text-danger">@ViewBag.Error</p>
+            </div>
+            <div class="form-group">
+                <label asp-for="Comment" class="control-label"></label>
+                <input placeholder="コメントなし" asp-for="Comment" class="form-control" />
+                <span asp-validation-for="Comment" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsPublic" /> @Html.DisplayNameFor(model => model.IsPublic)
+                </label>
+                <p>チェックすると、他の人も閲覧できます</p>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="アップロード" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">一覧に戻る</a>
+</div>
+

@@ -4,10 +4,10 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>システムパラメータ一覧</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">新規作成</a>
 </p>
 <table class="table">
     <thead>
@@ -33,40 +33,46 @@
             <th>
                 @Html.DisplayNameFor(model => model.UpdatedDate)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsDeleted)
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CategoryId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.OrderNo)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CurrentValue)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CreatedBy)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CreatedDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.UpdatedBy)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.UpdatedDate)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CategoryId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CurrentValue)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedBy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UpdatedBy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UpdatedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsDeleted)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">編集</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">詳細</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">削除</a>
+            </td>
+        </tr>
         }
     </tbody>
 </table>

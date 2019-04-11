@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -21,30 +22,44 @@ namespace BestNox.Models
         /// <summary>
         /// コメント
         /// </summary>
+        [DisplayName("コメント"), StringLength(200)]
         public string Comment { get; set; }
 
         /// <summary>
         /// 元ファイル名
         /// </summary>
-        [Required, DisplayName("元ファイル名")]
+        [DisplayName("ファイル名"), StringLength(60)]
         public string Filename { get; set; }
+
+        /// <summary>
+        /// ファイルサイズ(MB)
+        /// </summary>
+        [Required, DisplayName("サイズ")]
+        public float Size { get; set; }
 
         /// <summary>
         /// 格納ファイル名
         /// </summary>
-        [Required, DisplayName("格納ファイル名")]
+        [DisplayName("直接参照用アドレス"), StringLength(50)]
         public string TmpFilename { get; set; }
 
         /// <summary>
         /// 公開設定
         /// </summary>
-        [Required, DisplayName("公開")]
-        public int IsPublic { get; set; }
+        [Required, DisplayName("公開設定")]
+        public bool IsPublic { get; set; }
 
         /// <summary>
-        /// パスワード
+        /// 変更前の公開設定
         /// </summary>
-        public string Password { get; set; }
+        [NotMapped]
+        public bool IsPublicOld { get; set; }
+
+        /// <summary>
+        /// コンテントタイプ
+        /// </summary>
+        [StringLength(50)]
+        public string ContentType { get; set; }
 
         #region 共通項目
         /// <summary>

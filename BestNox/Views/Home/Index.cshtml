@@ -17,18 +17,19 @@
     // サインインしている場合
     <div class="form-group">
         <form method="post">
-            <button asp-controller="DailyRecord" asp-action="Index" class="btn btn-primary">日報</button>
+            <button asp-controller="DailyRecords" asp-action="Index" class="btn btn-primary">日報</button>
         </form>
         <br>
         <form method="post">
-            <button asp-controller="UploadFile" asp-action="Index" class="btn btn-primary">アップローダ</button>
+            <button asp-controller="UploadFiles" asp-action="Index" class="btn btn-primary">ファイルのアップロード</button>
         </form>
         <br>
         <form method="post">
-            <button asp-controller="QaData" asp-action="Index" class="btn btn-primary">オンラインメモ</button>
+            <button asp-controller="QaDatas" asp-action="Index" class="btn btn-primary">オンラインメモ</button>
         </form>
         <br>
         <p class="lead">以下アイデア</p>
+        <p class="lead">権限管理：余裕があれば追加</p>
         <p class="lead">工数登録：余裕があれば追加</p>
         <p class="lead">コードジェネレータ：やるなら簡単なもののみ。DNTの機能全部載せるのは無理。</p>
         <p class="lead">GoogleAPIを使った何か：面白そうだしTypeScriptを活かすチャンス！何かない？</p>

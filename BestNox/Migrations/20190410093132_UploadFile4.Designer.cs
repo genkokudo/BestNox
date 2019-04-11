@@ -3,14 +3,16 @@ using System;
 using BestNox.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BestNox.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190410093132_UploadFile4")]
+    partial class UploadFile4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -132,11 +134,7 @@ namespace BestNox.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Comment")
-                        .HasMaxLength(200);
-
-                    b.Property<string>("ContentType")
-                        .HasMaxLength(50);
+                    b.Property<string>("Comment");
 
                     b.Property<string>("CreatedBy")
                         .HasMaxLength(255);
@@ -144,7 +142,7 @@ namespace BestNox.Migrations
                     b.Property<DateTime?>("CreatedDate");
 
                     b.Property<string>("Filename")
-                        .HasMaxLength(60);
+                        .IsRequired();
 
                     b.Property<bool>("IsDeleted");
 
@@ -153,7 +151,7 @@ namespace BestNox.Migrations
                     b.Property<float>("Size");
 
                     b.Property<string>("TmpFilename")
-                        .HasMaxLength(50);
+                        .IsRequired();
 
                     b.Property<string>("UpdatedBy")
                         .HasMaxLength(255);

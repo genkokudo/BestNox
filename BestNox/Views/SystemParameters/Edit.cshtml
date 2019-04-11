@@ -4,7 +4,7 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<h1>編集</h1>
 
 <h4>SystemParameter</h4>
 <hr />
@@ -15,28 +15,33 @@
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
                 <label asp-for="CategoryId" class="control-label"></label>
-                <input asp-for="CategoryId" class="form-control" />
+                <input placeholder="（例）1" asp-for="CategoryId" class="form-control" />
                 <span asp-validation-for="CategoryId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="OrderNo" class="control-label"></label>
-                <input asp-for="OrderNo" class="form-control" />
+                <input placeholder="（例）1" asp-for="OrderNo" class="form-control" />
                 <span asp-validation-for="OrderNo" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="CurrentValue" class="control-label"></label>
-                <input asp-for="CurrentValue" class="form-control" />
+                <input placeholder="（例）設定値" asp-for="CurrentValue" class="form-control" />
                 <span asp-validation-for="CurrentValue" class="text-danger"></span>
             </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsDeleted" /> @Html.DisplayNameFor(model => model.IsDeleted)
+                </label>
+            </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="保存" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">一覧に戻る</a>
 </div>
 
 @section Scripts {

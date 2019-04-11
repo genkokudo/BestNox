@@ -1,0 +1,82 @@
+﻿@model BestNox.Models.UploadFile
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>詳細</h1>
+
+<div>
+    <h4>アップロード</h4>
+    <hr />
+    <form method="post">
+        <button asp-controller="UploadFiles" asp-action="Download" asp-route-id="@Model.Id" class="btn btn-primary">ファイルのダウンロード</button>
+    </form>
+    @if (ViewBag.Url != null)
+    {
+        if (Model.IsPublic && (Model.Filename.ToLower().EndsWith(".png") || Model.Filename.ToLower().EndsWith(".jpg") || Model.Filename.ToLower().EndsWith(".jpeg") || Model.Filename.ToLower().EndsWith(".gif")))
+        {
+            <img src="@ViewBag.Url" />
+        }
+    }
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Comment)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Comment)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Filename)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Filename)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Size)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Size)MB
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.IsPublic)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.IsPublic)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CreatedBy)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CreatedBy)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CreatedDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CreatedDate)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.UpdatedBy)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.UpdatedBy)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.UpdatedDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.UpdatedDate)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.IsDeleted)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.IsDeleted)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">編集</a> |
+    <a asp-action="Index">一覧に戻る</a>
+</div>
