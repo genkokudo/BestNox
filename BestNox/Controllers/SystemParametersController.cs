@@ -56,7 +56,7 @@ namespace BestNox.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,CategoryId,OrderNo,CurrentValue,CreatedBy,CreatedDate,UpdatedBy,UpdatedDate,IsDeleted")] SystemParameter systemParameter)
+        public async Task<IActionResult> Create([Bind("Id,CategoryId,OrderNo,Display,CurrentValue,CreatedBy,CreatedDate,UpdatedBy,UpdatedDate,IsDeleted")] SystemParameter systemParameter)
         {
             if (ModelState.IsValid)
             {
@@ -88,7 +88,7 @@ namespace BestNox.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,CategoryId,OrderNo,CurrentValue,CreatedBy,CreatedDate,UpdatedBy,UpdatedDate,IsDeleted")] SystemParameter systemParameter)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,CategoryId,OrderNo,Display,CurrentValue,CreatedBy,CreatedDate,UpdatedBy,UpdatedDate,IsDeleted")] SystemParameter systemParameter)
         {
             if (id != systemParameter.Id)
             {

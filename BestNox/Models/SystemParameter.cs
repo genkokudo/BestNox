@@ -32,9 +32,15 @@ namespace BestNox.Models
         public int OrderNo { get; set; }
 
         /// <summary>
+        /// 画面表示
+        /// </summary>
+        [Required, DisplayName("画面表示内容"), Column(TypeName = "text")]
+        public string Display { get; set; }
+
+        /// <summary>
         /// 設定値
         /// </summary>
-        [Required, DisplayName("設定値"), Column(TypeName = "text")]
+        [Required, DisplayName("設定値（コード）"), Column(TypeName = "text")]
         public string CurrentValue { get; set; }
 
         #region 共通項目
