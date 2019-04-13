@@ -11,9 +11,11 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 using System.Text;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BestNox.Controllers
 {
+    [Authorize]
     public class UploadFilesController : Controller
     {
         private readonly ApplicationDbContext _context;

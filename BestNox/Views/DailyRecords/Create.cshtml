@@ -1,0 +1,45 @@
+﻿@model BestNox.Models.DailyRecord
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>新規作成</h1>
+
+<h4>業務日報</h4>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="DocumentDate" class="control-label"></label>
+                <input asp-for="DocumentDate" class="form-control" />
+                <span asp-validation-for="DocumentDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label><label>（50字まで）</label>
+                <input placeholder="一覧で分かりやすいタイトルを付けましょう" asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Detail" class="control-label"></label><label>（最大30000字程度）</label>
+                <ul>
+                    <li>簡潔に書くように心がけましょう</li>
+                    <li>見やすいフォーマットを工夫しましょう</li>
+                    <li>Markdownが使用できます（表示は詳細画面）</li>
+                </ul>
+                <textarea placeholder="本文入力" asp-for="Detail" class="form-control" TextMode="multiline" rows="15"></textarea>
+                <span asp-validation-for="Detail" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="登録" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">一覧に戻る</a>
+</div>
+

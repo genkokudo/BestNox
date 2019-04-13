@@ -22,7 +22,7 @@ namespace BestNox.Models
         /// <summary>
         /// 記事の日付
         /// </summary>
-        [Required, DisplayName("日付")]
+        [Required, DisplayName("日付"), DataType(DataType.Date)]
         public DateTime? DocumentDate { get; set; }
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace BestNox.Models
         /// <summary>
         /// 本文
         /// </summary>
-        [Required, DisplayName("本文"), Column(TypeName = "text")]
+        [Required, DisplayName("本文"), Column(TypeName = "text"), StringLength(30000)]
         public string Detail { get; set; }
 
         #region 共通項目
