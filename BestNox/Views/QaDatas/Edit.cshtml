@@ -1,0 +1,82 @@
+﻿@model BestNox.Models.QaData
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>編集</h1>
+
+<h4>メモ</h4>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label><label>（50字まで）</label>
+                <input placeholder="タイトル" asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Question" class="control-label"></label><label>（最大30000字程度）</label>
+                <ul>
+                    <li>Markdownが使用できます（表示は詳細画面）</li>
+                </ul>
+                <textarea placeholder="問題" asp-for="Question" class="form-control" TextMode="multiline" rows="10"></textarea>
+                <span asp-validation-for="Question" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Answer" class="control-label"></label><label>（最大30000字程度）</label>
+                <ul>
+                    <li>Markdownが使用できます（表示は詳細画面）</li>
+                </ul>
+                <textarea placeholder="回答" asp-for="Answer" class="form-control" TextMode="multiline" rows="10"></textarea>
+                <span asp-validation-for="Answer" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsSolved" /> @Html.DisplayNameFor(model => model.IsSolved)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="RelativeNo" class="control-label"></label><label>高い方が優先</label>
+                <input asp-for="RelativeNo" class="form-control" />
+                <span asp-validation-for="RelativeNo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CategoryId" class="control-label"></label>
+                <input asp-for="CategoryId" class="form-control" />
+                <span asp-validation-for="CategoryId" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsPublic" /> @Html.DisplayNameFor(model => model.IsPublic)
+                </label>
+            </div>
+            <div class="form-group d-none">
+                <label asp-for="CreatedBy" class="control-label"></label>
+                <input asp-for="CreatedBy" class="form-control" />
+                <span asp-validation-for="CreatedBy" class="text-danger"></span>
+            </div>
+            <div class="form-group d-none">
+                <label asp-for="CreatedDate" class="control-label"></label>
+                <input asp-for="CreatedDate" class="form-control" />
+                <span asp-validation-for="CreatedDate" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsDeleted" /> @Html.DisplayNameFor(model => model.IsDeleted)
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="保存" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">一覧に戻る</a>
+</div>
+

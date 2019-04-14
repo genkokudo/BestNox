@@ -23,25 +23,25 @@ namespace BestNox.Models
         /// <summary>
         /// タイトル
         /// </summary>
-        [Required, Column(TypeName = "text"), StringLength(50)]
+        [Required, Column(TypeName = "text"), StringLength(50), Display(Name = "タイトル")]
         public string Title { get; set; }
 
         /// <summary>
         /// 問題
         /// </summary>
-        [Required, Column(TypeName = "text")]
+        [Required, Column(TypeName = "text"), Display(Name = "問題")]
         public string Question { get; set; }
 
         /// <summary>
         /// 回答
         /// </summary>
-        [Column(TypeName = "text")]
+        [Column(TypeName = "text"), Display(Name = "回答")]
         public string Answer { get; set; }
 
         /// <summary>
         /// 解決済み
         /// </summary>
-        [Required]
+        [Required, Display(Name = "解決済み")]
         public bool IsSolved { get; set; }
 
         /// <summary>
@@ -54,14 +54,14 @@ namespace BestNox.Models
         /// <summary>
         /// 分類
         /// </summary>
-        [Required]
+        [Required, Display(Name = "分類")]
         public int CategoryId { get; set; }
 
         /// <summary>
         /// 公開設定
         /// </summary>
-        [Required]
-        public int IsPublic { get; set; }
+        [Required, Display(Name = "公開設定")]
+        public bool IsPublic { get; set; }
 
 
         #region 共通項目
