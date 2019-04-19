@@ -39,13 +39,15 @@
                 </label>
             </div>
             <div class="form-group">
-                <label asp-for="RelativeNo" class="control-label"></label><label>高い方が優先</label>
+                <label asp-for="RelativeNo" class="control-label"></label><label>（高い方が優先）</label>
                 <input asp-for="RelativeNo" class="form-control" />
                 <span asp-validation-for="RelativeNo" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="CategoryId" class="control-label"></label>
-                <input asp-for="CategoryId" class="form-control" />
+                <select asp-for="CategoryId" asp-items="ViewBag.SelectList" class="form-control">
+                    <option value="">選択してください</option>
+                </select>
                 <span asp-validation-for="CategoryId" class="text-danger"></span>
             </div>
             <div class="form-group form-check">

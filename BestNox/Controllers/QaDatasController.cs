@@ -25,9 +25,22 @@ namespace BestNox.Controllers
         // GET: QaDatas
         public async Task<IActionResult> Index()
         {
-            // TODO:自分が作成した、または誰かの公開設定。それを優先度降順->更新日時降順で表示
-            // TODO:リストボックスで選択した条件で表示
-            return View(await _context.QaDatas.ToListAsync());
+            // 自分が作成した、または誰かの公開設定。それを優先度降順->更新日時降順で表示
+            ViewBag.SelectList = getSelectList(SystemConstants.SystemPatameterMemo, 0);
+            return View(await _context.QaDatas.Where(d => d.CreatedBy == User.Identity.Name || d.IsPublic).OrderByDescending(d => d.UpdatedDate).OrderBy(d => d.RelativeNo).ToListAsync());
+        }
+
+        // GET: QaDatas/1
+        [HttpGet]
+        public async Task<IActionResult> Index(int? categoryId)
+        {
+            // リストボックスで選択した条件で表示
+            if(categoryId.HasValue)
+            {
+                ViewBag.SelectList = getSelectList(SystemConstants.SystemPatameterMemo, categoryId.Value);
+                return View(await _context.QaDatas.Where(d => d.CategoryId == categoryId).Where(d => d.CreatedBy == User.Identity.Name || d.IsPublic).OrderByDescending(d => d.UpdatedDate).OrderBy(d => d.RelativeNo).ToListAsync());
+            }
+            return await Index();
         }
 
         // GET: QaDatas/Details/5
@@ -53,7 +66,26 @@ namespace BestNox.Controllers
         // GET: QaDatas/Create
         public IActionResult Create()
         {
+            ViewBag.SelectList = getSelectList(SystemConstants.SystemPatameterMemo, 0);
             return View();
+        }
+
+        private List<SelectListItem> getSelectList(int category, int select)
+        {
+            // リストボックス選択肢の作成
+            var parameters = _context.SystemParameters.Where(p => p.CategoryId == category).OrderBy(p => p.OrderNo).ToList();
+            var selectList = new List<SelectListItem>();
+            foreach (var item in parameters)
+            {
+                var selectItem = new SelectListItem(item.Display, item.CurrentValue);
+                if(int.Parse(item.CurrentValue) == select)
+                {
+                    selectItem.Selected = true;
+                }
+                selectList.Add(selectItem);
+            }
+
+            return selectList;
         }
 
         // POST: QaDatas/Create
@@ -69,6 +101,7 @@ namespace BestNox.Controllers
                 await _context.SaveChangesAsync(User.Identity.Name);
                 return RedirectToAction(nameof(Index));
             }
+            ViewBag.SelectList = getSelectList(SystemConstants.SystemPatameterMemo, 0);
             return View(qaData);
         }
 
@@ -86,6 +119,7 @@ namespace BestNox.Controllers
                 return NotFound();
             }
 
+            ViewBag.SelectList = getSelectList(SystemConstants.SystemPatameterMemo, 0);
             return View(qaData);
         }
 
@@ -121,6 +155,7 @@ namespace BestNox.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewBag.SelectList = getSelectList(SystemConstants.SystemPatameterMemo, 0);
             return View(qaData);
         }
 

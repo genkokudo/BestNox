@@ -54,6 +54,15 @@
         /// <summary>
         /// パスワードの確認誤りメッセージ
         /// </summary>
-        public const string ConfirmPasswordError = "このハゲー！ちーがーうーだーろ！";
+        public const string ConfirmPasswordError = "パスワードが一致していません";
+
+        /// <summary>
+        /// システムパラメータ：分類コード：分類
+        /// </summary>
+        public const int SystemPatameterCategory = 1;
+        /// <summary>
+        /// システムパラメータ：分類コード：オンラインメモ
+        /// </summary>
+        public const int SystemPatameterMemo = 2;
     }
 }
