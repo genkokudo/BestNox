@@ -64,5 +64,9 @@
         /// システムパラメータ：分類コード：オンラインメモ
         /// </summary>
         public const int SystemPatameterMemo = 2;
+        /// <summary>
+        /// システムパラメータ：分類コード：メモ一覧の背景色
+        /// </summary>
+        public const int SystemPatameterMemoBack = 3;
     }
 }

@@ -25,6 +25,9 @@ namespace BestNox.Controllers
         // GET: QaDatas
         public async Task<IActionResult> Index()
         {
+            // 背景色の設定を取得する
+            ViewBag.BackList = getKeyValueList(SystemConstants.SystemPatameterMemoBack);
+
             // 自分が作成した、または誰かの公開設定。それを優先度降順->更新日時降順で表示
             ViewBag.SelectList = getSelectList(SystemConstants.SystemPatameterMemo, 0);
             return View(await _context.QaDatas.Where(d => d.CreatedBy == User.Identity.Name || d.IsPublic).OrderByDescending(d => d.UpdatedDate).OrderBy(d => d.RelativeNo).ToListAsync());
@@ -34,8 +37,9 @@ namespace BestNox.Controllers
         [HttpGet]
         public async Task<IActionResult> Index(int? categoryId)
         {
+            ViewBag.BackList = getKeyValueList(SystemConstants.SystemPatameterMemoBack);
             // リストボックスで選択した条件で表示
-            if(categoryId.HasValue)
+            if (categoryId.HasValue)
             {
                 ViewBag.SelectList = getSelectList(SystemConstants.SystemPatameterMemo, categoryId.Value);
                 return View(await _context.QaDatas.Where(d => d.CategoryId == categoryId).Where(d => d.CreatedBy == User.Identity.Name || d.IsPublic).OrderByDescending(d => d.UpdatedDate).OrderBy(d => d.RelativeNo).ToListAsync());
@@ -57,9 +61,13 @@ namespace BestNox.Controllers
             {
                 return NotFound();
             }
-
             ViewBag.Question = Markdown.ToHtml(qaData.Question);
-            ViewBag.Answer = Markdown.ToHtml(qaData.Answer);
+            if (qaData.Answer != null)
+            {
+                ViewBag.Answer = Markdown.ToHtml(qaData.Answer);
+            }
+
+            ViewBag.SelectList = getSelectList(SystemConstants.SystemPatameterMemo, qaData.CategoryId);
             return View(qaData);
         }
 
@@ -68,24 +76,6 @@ namespace BestNox.Controllers
         {
             ViewBag.SelectList = getSelectList(SystemConstants.SystemPatameterMemo, 0);
             return View();
-        }
-
-        private List<SelectListItem> getSelectList(int category, int select)
-        {
-            // リストボックス選択肢の作成
-            var parameters = _context.SystemParameters.Where(p => p.CategoryId == category).OrderBy(p => p.OrderNo).ToList();
-            var selectList = new List<SelectListItem>();
-            foreach (var item in parameters)
-            {
-                var selectItem = new SelectListItem(item.Display, item.CurrentValue);
-                if(int.Parse(item.CurrentValue) == select)
-                {
-                    selectItem.Selected = true;
-                }
-                selectList.Add(selectItem);
-            }
-
-            return selectList;
         }
 
         // POST: QaDatas/Create
@@ -119,7 +109,7 @@ namespace BestNox.Controllers
                 return NotFound();
             }
 
-            ViewBag.SelectList = getSelectList(SystemConstants.SystemPatameterMemo, 0);
+            ViewBag.SelectList = getSelectList(SystemConstants.SystemPatameterMemo, qaData.CategoryId);
             return View(qaData);
         }
 
@@ -155,7 +145,7 @@ namespace BestNox.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewBag.SelectList = getSelectList(SystemConstants.SystemPatameterMemo, 0);
+            ViewBag.SelectList = getSelectList(SystemConstants.SystemPatameterMemo, qaData.CategoryId);
             return View(qaData);
         }
 
@@ -174,6 +164,7 @@ namespace BestNox.Controllers
                 return NotFound();
             }
 
+            ViewBag.SelectList = getSelectList(SystemConstants.SystemPatameterMemo, qaData.CategoryId);
             return View(qaData);
         }
 
@@ -192,5 +183,48 @@ namespace BestNox.Controllers
         {
             return _context.QaDatas.Any(e => e.Id == id);
         }
+
+        #region 共通処理：スーパークラス作成した方が良いかも
+        /// <summary>
+        /// プルダウンを作成する
+        /// </summary>
+        /// <param name="category">カテゴリID</param>
+        /// <param name="select">初期選択値、ない場合は0</param>
+        /// <returns>プルダウンの選択肢リスト</returns>
+        private List<SelectListItem> getSelectList(int category, int select)
+        {
+            var parameters = _context.SystemParameters.Where(p => p.CategoryId == category).OrderBy(p => p.OrderNo).ToList();
+            var selectList = new List<SelectListItem>();
+            foreach (var item in parameters)
+            {
+                var selectItem = new SelectListItem(item.Display, item.CurrentValue);
+                if(int.Parse(item.CurrentValue) == select)
+                {
+                    selectItem.Selected = true;
+                }
+                selectList.Add(selectItem);
+            }
+
+            return selectList;
+        }
+
+        /// <summary>
+        /// 辞書データを作成
+        /// </summary>
+        /// <param name="category">カテゴリID</param>
+        /// <returns>辞書データ</returns>
+        private Dictionary<string, string> getKeyValueList(int category)
+        {
+            var parameters = _context.SystemParameters.Where(p => p.CategoryId == category).ToList();
+            var dictionary = new Dictionary<string, string>();
+
+            foreach (var item in parameters)
+            {
+                dictionary.Add(item.CurrentValue, item.Display);
+            }
+
+            return dictionary;
+        }
+        #endregion
     }
 }

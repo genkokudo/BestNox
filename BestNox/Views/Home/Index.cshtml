@@ -7,74 +7,95 @@
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
-<div class="jumbotron" style="background:url(/images/ayameike.png); background-size:cover;">
-    <h1 class="display-4">BestNoxへようこそ！</h1>
-    <p class="lead">どうぞおくつろぎください</p>
-</div>
-@if (SignInManager.IsSignedIn(User))
-{
-    <h2>メニュー</h2>
-    // サインインしている場合
-    <div class="form-group">
-        <form method="post">
-            <button asp-controller="DailyRecords" asp-action="Index" class="btn btn-primary">日報</button>
-        </form>
-        <br>
-        <form method="post">
-            <button asp-controller="UploadFiles" asp-action="Index" class="btn btn-primary">ファイルのアップロード</button>
-        </form>
-        <br>
-        <form method="post">
-            <button asp-controller="QaDatas" asp-action="Index" class="btn btn-primary">オンラインメモ</button>
-        </form>
-        <br>
-        <p class="lead">以下アイデア</p>
-        <p class="lead">権限管理：余裕があれば追加</p>
-        <p class="lead">工数登録：余裕があれば追加</p>
-        <p class="lead">コードジェネレータ：やるなら簡単なもののみ。DNTの機能全部載せるのは無理。</p>
-        <p class="lead">GoogleAPIを使った何か：面白そうだしTypeScriptを活かすチャンス！何かない？</p>
-        <p class="lead">経費まとめ：頑張りましょう</p>
-        <p class="lead">リンク集：頑張りましょう</p>
-        <p class="lead">ブログ的なもの：やるなら別サイト</p>
-        <p class="lead">ゲームコーナー：やるなら別サイト、できたらいいね</p>
-        <p class="lead">APIでデータ収集してグラフ表示：やるなら裏サイト</p>
-        <p class="lead">サーバで動作中のBOTのステータス表示：やるなら裏サイト</p>
+    <div class="jumbotron" style="background:url(/images/ayameike.png); background-size:cover;">
+        <h1 class="display-4">架空会社BestNoxへようこそ！</h1>
+        <p class="lead">どうぞおくつろぎください</p>
     </div>
-
-    if (User.IsInRole(SystemConstants.Administrator))
+    @if (SignInManager.IsSignedIn(User))
     {
-        <h2>管理者用メニュー</h2>
-        <form method="post">
-            <button asp-controller="SystemParameters" asp-action="Index" class="btn btn-primary">システムパラメータメンテナンス</button>
-        </form>
+        <h2>ユーザーメニュー</h2>
+        // サインインしている場合
+        <div class="row">
+            <div class="col-sm text-center mb-4">
+                <form method="post">
+                    <button asp-controller="DailyRecords" asp-action="Index" class="btn btn-primary w-75">業務日報</button>
+                </form>
+            </div>
+            <div class="col-sm text-center mb-4">
+                <form method="post">
+                    <button asp-controller="UploadFiles" asp-action="Index" class="btn btn-primary w-75">ファイルのアップロード</button>
+                </form>
+            </div>
+            <div class="col-sm text-center mb-4">
+                <form method="post">
+                    <button asp-controller="QaDatas" asp-action="Index" class="btn btn-primary w-75">オンラインメモ</button>
+                </form>
+            </div>
+        </div>
+
+        if (User.IsInRole(SystemConstants.Administrator))
+        {
+            <h2>管理者用メニュー</h2>
+            <div class="row">
+                <div class="col-sm text-center mb-4">
+                    <form method="post">
+                        <button asp-controller="SystemParameters" asp-action="Index" class="btn btn-primary w-75">システムパラメータ設定</button>
+                    </form>
+                </div>
+                <div class="col-sm text-center mb-4">
+                </div>
+                <div class="col-sm text-center mb-4">
+                </div>
+            </div>
+        }
     }
-    <br>
-}
-@ViewData["Message"]
-@ViewBag.Message
-<div class="card-deck">
-    <div class="card border-primary shadow">
-        <img class="card-img-top" src="~/images/jiji.png" alt="Card image cap">
-        <div class="card-header"> じぃじぃ♂：ここはどこですか？ </div>
-        <div class="card-body">
-            <h4>BestNoxの秘密基地です</h4>
-            <p class="card-text"><br> 京都府にあります。<br>でも、猫の写真は岐阜です。<br>空の写真は奈良です。</p>
+    @ViewData["Message"]
+    @ViewBag.Message
+    <div class="card-deck">
+        <div class="card border-primary shadow mb-4">
+            <img class="card-img-top" src="~/images/jiji.png" alt="Card image cap">
+            <div class="card-header"> じぃじぃ♂：ここはどこですか？ </div>
+            <div class="card-body">
+                <h4>架空の会社BestNoxです</h4>
+                <p class="card-text"><br> 京都府にあります。<br>でも、猫の写真は岐阜です。<br>空の写真は奈良です。</p>
+            </div>
+        </div>
+        <div class="card border-primary shadow mb-4">
+            <img class="card-img-top" src="~/images/tai.png" alt="Card image cap">
+            <div class="card-header"> たいすけ♂：BestNoxって何ですか？ </div>
+            <div class="card-body">
+                <h4>架空の組織です</h4>
+                <p>私達、お金のために働きます！<br> 例えそれが地位をかける戦いであっても 私達は一歩も退きません！<br> それが、BestNoxなのです！！</p>
+            </div>
+        </div>
+        <div class="card border-primary shadow mb-4">
+            <img class="card-img-top" src="~/images/tango.png" alt="Card image cap">
+            <div class="card-header"> たんご♂：目的は何ですか？ </div>
+            <div class="card-body">
+                <h4>単純労働を消すことです</h4>
+                <p>世の中には会社に通うことでお金が発生すると思い込み、単純労働に甘えている人間で溢れています。<br>私達はその単純労働を駆逐するのです！</p>
+            </div>
         </div>
     </div>
-    <div class="card border-primary shadow">
-        <img class="card-img-top" src="~/images/tai.png" alt="Card image cap">
-        <div class="card-header"> たいすけ♂：BestNoxって何ですか？ </div>
-        <div class="card-body">
-            <h4>影の組織です</h4>
-            <p>私達、お金のために働きます！<br> 例えそれが地位をかける戦いであっても 私達は一歩も退きません！<br> それが、BestNoxなのです！！</p>
+    <!-- 折り畳み情報 -->
+    <button type="button" class="btn btn-info mb-4" data-toggle="collapse" data-target="#ideas" aria-expanded="false" aria-controls="ideas">
+        今後の実装課題・アイデア
+    </button>
+    <div class="collapse" id="ideas">
+        <div class="card-deck mb-4">
+            <div class="card"><div class="card-header">権限管理</div><div class="card-body">余裕があれば追加</div></div>
+            <div class="card"><div class="card-header">工数登録</div><div class="card-body">余裕があれば追加</div></div>
+            <div class="card"><div class="card-header">コードジェネレータ</div><div class="card-body">やるなら簡単なもののみ。DNTの機能全部載せるのは無理。</div></div>
+            <div class="card"><div class="card-header">GoogleAPIを使った何か</div><div class="card-body">面白そうだしTypeScriptを活かすチャンス！何かない？</div></div>
+        </div>
+        <div class="card-deck mb-4">
+            <div class="card"><div class="card-header">経費まとめ</div><div class="card-body">頑張りましょう</div></div>
+            <div class="card"><div class="card-header">リンク集</div><div class="card-body">頑張りましょう</div></div>
+            <div class="card"><div class="card-header">ブログ的なもの</div><div class="card-body">やるなら別サイト</div></div>
+        </div>
+        <div class="card-deck mb-4">
+            <div class="card"><div class="card-header">ゲームコーナー</div><div class="card-body">やるなら別サイト、できたらいいね</div></div>
+            <div class="card"><div class="card-header">APIでデータ収集してグラフ表示</div><div class="card-body">やるなら裏サイト</div></div>
+            <div class="card"><div class="card-header">サーバで動作中のBOTのステータス表示</div><div class="card-body">やるなら裏サイト</div></div>
         </div>
     </div>
-    <div class="card border-primary shadow">
-        <img class="card-img-top" src="~/images/tango.png" alt="Card image cap">
-        <div class="card-header"> たんご♂：目的は何ですか？ </div>
-        <div class="card-body">
-            <h4>単純労働を消すことです</h4>
-            <p>世の中には会社に通うことでお金が発生すると思い込んでいる人間で溢れています。<br>しかし実際は物を作って売ることで収益になり、単純労働がその妨げになります。<br>私達はその単純労働を駆逐するのです！</p>
-        </div>
-    </div>
-</div>
