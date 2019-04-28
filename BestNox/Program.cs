@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using NLog.Web;
 
 namespace BestNox
 {
@@ -72,6 +73,14 @@ namespace BestNox
         // ・構成
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+                .UseStartup<Startup>()
+                .ConfigureLogging((hostingContext, logging) => {
+                    // NLog 以外で設定された Provider の無効化.
+                    logging.ClearProviders();
+                    // 最小ログレベルの設定.
+                    logging.SetMinimumLevel(LogLevel.Trace);
+                })
+                // NLog を有効にする.
+                .UseNLog();
     }
 }

@@ -14,6 +14,7 @@ using BestNox.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
+using Microsoft.Extensions.Logging;
 
 namespace BestNox
 {
@@ -28,9 +29,17 @@ namespace BestNox
         // ・DI
         // ・構成
 
-        public Startup(IConfiguration configuration)
+        public Startup(IHostingEnvironment env, ILogger<Startup> logger)
         {
-            Configuration = configuration;
+            //構成ファイル、環境変数等から、構成情報をロード
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                //.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                .AddEnvironmentVariables();
+
+            //構成情報をプロパティに設定
+            Configuration = builder.Build();
         }
 
         public IConfiguration Configuration { get; }
