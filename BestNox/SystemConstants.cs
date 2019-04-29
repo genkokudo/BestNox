@@ -9,7 +9,7 @@
         /// 現在のDB接続設定
         /// 詳細はappsettings.json
         /// </summary>
-        public const string Connection = "DebugConnection";
+        public const string Connection = "DefaultConnection";
 
         /// <summary>
         /// ページタイトル

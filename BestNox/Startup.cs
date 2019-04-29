@@ -29,14 +29,16 @@ namespace BestNox
         // ・DI
         // ・構成
 
-        public Startup(IHostingEnvironment env, ILogger<Startup> logger)
+        public Startup(IHostingEnvironment env, Logger<Startup> logger)
         {
             //構成ファイル、環境変数等から、構成情報をロード
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                //.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: false, reloadOnChange: true)
                 .AddEnvironmentVariables();
+
+            logger.Log(LogLevel.Information, $"現在の環境設定は<appsettings.{env.EnvironmentName}.json>です。");
 
             //構成情報をプロパティに設定
             Configuration = builder.Build();
