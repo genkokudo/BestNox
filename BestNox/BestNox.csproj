@@ -26,6 +26,9 @@
 
 
   <ItemGroup>
+    <Content Update="nlog_Production.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Update="nlog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
