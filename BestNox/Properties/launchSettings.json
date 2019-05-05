@@ -13,6 +13,7 @@
       "launchBrowser": true,
       "environmentVariables": {
         "BESTNOX_DATABASE_PASSWORD": "password",
+        "IS_DEMO": "0",
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
