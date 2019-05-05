@@ -12,7 +12,7 @@
       "commandName": "IISExpress",
       "launchBrowser": true,
       "environmentVariables": {
-        "BESTNOX_DATABASE_PASSWORD": "password",
+        "BESTNOX_DATABASE_PASSWORD": "aaaa",
         "IS_DEMO": "0",
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
