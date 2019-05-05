@@ -12,6 +12,16 @@
         public const string Connection = "DefaultConnection";
 
         /// <summary>
+        /// DBパスワード環境変数名
+        /// </summary>
+        public const string DbPasswordEnv = "BESTNOX_DATABASE_PASSWORD";
+
+        /// <summary>
+        /// 展示用モードかの環境変数名
+        /// </summary>
+        public const string IsDemoEnv = "IS_DEMO";
+
+        /// <summary>
         /// ページタイトル
         /// </summary>
         public const string Title = "BestNox";

@@ -20,6 +20,9 @@ namespace BestNox
 {
     public class Startup
     {
+        private IConfiguration configuration;
+        private ILogger logger;
+
         // Core1系で毎回書いていたコードをラップしている
         // 内容はここ
         // https://docs.microsoft.com/ja-jp/aspnet/core/fundamentals/index?tabs=windows&view=aspnetcore-2.2#host
@@ -28,18 +31,17 @@ namespace BestNox
         // ・ログの記録
         // ・DI
         // ・構成
-
-        public Startup(IHostingEnvironment env, ILogger<Startup> logger, IConfiguration configuration)
+        public Startup(IHostingEnvironment env, IConfiguration configuration, ILogger<Startup> logger)
         {
+            this.configuration = configuration;
+            this.logger = logger;
+
             //構成ファイル、環境変数等から、構成情報をロード
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: false, reloadOnChange: true)
                 .AddEnvironmentVariables();
-            // ログ出力確認出来たら消すこと
-            logger.Log(LogLevel.Information, $"現在の環境設定は<appsettings.{env.EnvironmentName}.json>です。");
-            logger.Log(LogLevel.Information, configuration.GetValue<string>("ASPNETCORE_TEST"));
 
             //構成情報をプロパティに設定
             Configuration = builder.Build();
@@ -55,7 +57,9 @@ namespace BestNox
         /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
-            
+            // configuration.GetValue<string>(SystemConstants.DbPasswordEnv);
+            // configuration.GetValue<string>(SystemConstants.IsDemoEnv);
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // このラムダは、必須ではないCookieに対するユーザーの同意が特定のリクエストに必要かどうかを決定します。
@@ -69,7 +73,7 @@ namespace BestNox
             // MySQL.Data.EntityFrameworkCoreはバグっているので
             // Pomelo.EntityFrameworkCore.MySqlを使用する。
             services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseMySql(Configuration.GetConnectionString(SystemConstants.Connection),
+            options.UseMySql(Configuration.GetConnectionString(SystemConstants.Connection) + "Password = " + configuration.GetValue<string>(SystemConstants.DbPasswordEnv) + ";",
                 mySqlOptions =>
                 {
                     mySqlOptions.ServerVersion(new Version(10, 3, 13), ServerType.MariaDb);
