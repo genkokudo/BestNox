@@ -8,6 +8,10 @@ using Microsoft.EntityFrameworkCore;
 using BestNox.Data;
 using BestNox.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.DependencyInjection;
+using BestNox.Settings;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 
 namespace BestNox.Controllers
 {
@@ -16,15 +20,36 @@ namespace BestNox.Controllers
     {
         private readonly ApplicationDbContext _context;
 
-        public SystemParametersController(ApplicationDbContext context)
+        private readonly DefaultParameters _defaultParameters = null;
+
+        public SystemParametersController(ApplicationDbContext context, IOptions<DefaultParameters> defaultParameters)
         {
             _context = context;
+            _defaultParameters = defaultParameters.Value;
         }
 
         // GET: SystemParameters
         public async Task<IActionResult> Index()
         {
-            return View(await _context.SystemParameters.Where(d => !d.IsDeleted).OrderBy(d => d.OrderNo).OrderBy(d => d.CategoryId).ToListAsync());
+            var list = await _context.SystemParameters.Where(d => !d.IsDeleted).OrderBy(d => d.OrderNo).OrderBy(d => d.CategoryId).ToListAsync();
+            if(list.Count == 0)
+            {
+                // 初期状態なので、初期化
+                foreach (var item in _defaultParameters.DefaultValues)
+                {
+                    var systemParameter = new SystemParameter();
+                    systemParameter.CategoryId = int.Parse(item[0] as string);
+                    systemParameter.OrderNo = int.Parse(item[1] as string);
+                    systemParameter.CurrentValue = item[2] as string;
+                    systemParameter.Display = item[3] as string;
+                    _context.Add(systemParameter);
+                }
+                await _context.SaveChangesAsync(SystemConstants.DefaultParameterUserName);
+
+                // 登録後再検索
+                list = await _context.SystemParameters.Where(d => !d.IsDeleted).OrderBy(d => d.OrderNo).OrderBy(d => d.CategoryId).ToListAsync();
+            }
+            return View(list);
         }
 
         // GET: SystemParameters/Details/5

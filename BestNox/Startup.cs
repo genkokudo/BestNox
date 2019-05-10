@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BestNox.Data;
@@ -15,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using Microsoft.Extensions.Logging;
+using BestNox.Settings;
 
 namespace BestNox
 {
@@ -57,9 +53,6 @@ namespace BestNox
         /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
-            // configuration.GetValue<string>(SystemConstants.DbPasswordEnv);
-            // configuration.GetValue<string>(SystemConstants.IsDemoEnv);
-
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // このラムダは、必須ではないCookieに対するユーザーの同意が特定のリクエストに必要かどうかを決定します。
@@ -78,7 +71,7 @@ namespace BestNox
                 {
                     mySqlOptions.ServerVersion(new Version(10, 3, 13), ServerType.MariaDb);
                 }
-            )); 
+            ));
 
             // デフォルトUI
             // UI画面を自作しない場合、この設定でデフォルトのRegisterページUIが設定される
@@ -91,6 +84,9 @@ namespace BestNox
             // RazorPagesを使用する設定
             // RazorPagesの設定なので、Pagesフォルダじゃないと適用されない。
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            // アプリケーション設定の読み込み
+            var defaultParameter = services.Configure<DefaultParameters>(this.Configuration.GetSection(SystemConstants.DefaultParameters));
         }
 
         /// <summary>
@@ -99,6 +95,7 @@ namespace BestNox
         /// </summary>
         /// <param name="app"></param>
         /// <param name="env"></param>
+        /// <param name="services">設定ファイルの読み込み</param>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
@@ -141,4 +138,5 @@ namespace BestNox
             app.UseCookiePolicy();
         }
     }
+
 }

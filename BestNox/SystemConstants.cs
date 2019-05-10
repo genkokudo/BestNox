@@ -27,6 +27,11 @@
         public const string Title = "BestNox";
 
         /// <summary>
+        /// 初期値設定ユーザ名
+        /// </summary>
+        public const string DefaultParameterUserName = "default";
+
+        /// <summary>
         /// 管理者権限名
         /// </summary>
         public const string Administrator = "Administrator";
@@ -66,6 +71,10 @@
         /// </summary>
         public const string ConfirmPasswordError = "パスワードが一致していません";
 
+        /// <summary>
+        /// アプリケーション設定：システムパラメータ初期値
+        /// </summary>
+        public const string DefaultParameters = "DefaultParameters";
         /// <summary>
         /// システムパラメータ：分類コード：分類
         /// </summary>
