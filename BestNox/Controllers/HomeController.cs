@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using BestNox.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Configuration;
 
 namespace BestNox.Controllers
 {
@@ -14,11 +15,18 @@ namespace BestNox.Controllers
     /// </summary>
     public class HomeController : Controller
     {
+        public IConfiguration Configuration { get; }
+        public HomeController(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
         /// <summary>
         /// 最初のページ
         /// </summary>
         public IActionResult Index()
         {
+            ViewData["IsDemo"] = Configuration.GetValue<string>(SystemConstants.IsDemoEnv);
             // 引数に何も指定しない場合は、メソッド名と同じ名前のビューを返す。
             return View();
         }

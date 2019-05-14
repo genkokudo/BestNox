@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BestNox.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190412232153_DailyRecord1")]
-    partial class DailyRecord1
+    [Migration("20190512082454_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -31,7 +31,8 @@ namespace BestNox.Migrations
 
                     b.Property<string>("Detail")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasMaxLength(30000);
 
                     b.Property<DateTime?>("DocumentDate")
                         .IsRequired();
@@ -72,7 +73,7 @@ namespace BestNox.Migrations
 
                     b.Property<bool>("IsDeleted");
 
-                    b.Property<int>("IsPublic");
+                    b.Property<bool>("IsPublic");
 
                     b.Property<bool>("IsSolved");
 

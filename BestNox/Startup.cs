@@ -16,8 +16,11 @@ namespace BestNox
 {
     public class Startup
     {
-        private IConfiguration configuration;
-        private ILogger logger;
+        public IConfiguration Configuration { get; }
+
+        public IHostingEnvironment Environment { get; }
+
+        private ILogger Logger { get; }
 
         // Core1系で毎回書いていたコードをラップしている
         // 内容はここ
@@ -29,8 +32,8 @@ namespace BestNox
         // ・構成
         public Startup(IHostingEnvironment env, IConfiguration configuration, ILogger<Startup> logger)
         {
-            this.configuration = configuration;
-            this.logger = logger;
+            Configuration = configuration;
+            Logger = logger;
 
             //構成ファイル、環境変数等から、構成情報をロード
             var builder = new ConfigurationBuilder()
@@ -41,9 +44,8 @@ namespace BestNox
 
             //構成情報をプロパティに設定
             Configuration = builder.Build();
+            Environment = env;
         }
-
-        public IConfiguration Configuration { get; }
 
 
         /// <summary>
@@ -65,13 +67,29 @@ namespace BestNox
             // MySQLを使用するように変更
             // MySQL.Data.EntityFrameworkCoreはバグっているので
             // Pomelo.EntityFrameworkCore.MySqlを使用する。
-            services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseMySql(Configuration.GetConnectionString(SystemConstants.Connection) + "Password = " + configuration.GetValue<string>(SystemConstants.DbPasswordEnv) + ";",
-                mySqlOptions =>
-                {
-                    mySqlOptions.ServerVersion(new Version(10, 3, 13), ServerType.MariaDb);
-                }
-            ));
+            if (Environment.EnvironmentName == SystemConstants.EnvDevelopment)
+            {
+                // 開発系はappsettingsから接続文字列とパスワードを取得する。
+                services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseMySql(Configuration.GetConnectionString(SystemConstants.Connection),
+                    mySqlOptions =>
+                    {
+                        mySqlOptions.ServerVersion(new Version(10, 3, 13), ServerType.MariaDb);
+                    }
+                ));
+            }
+            else
+            {
+                // 本番系は接続先をappsettingsから、パスワードを環境変数から取得する
+                // マイグレーションを行う場合、環境名は"Development"になり、環境変数から値が取れないのでここは使えない。
+                services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseMySql(Configuration.GetConnectionString(SystemConstants.Connection) + "Password=" + Configuration.GetValue<string>(SystemConstants.DbPasswordEnv) + ";",
+                    mySqlOptions =>
+                    {
+                        mySqlOptions.ServerVersion(new Version(10, 3, 13), ServerType.MariaDb);
+                    }
+                ));
+            }
 
             // デフォルトUI
             // UI画面を自作しない場合、この設定でデフォルトのRegisterページUIが設定される

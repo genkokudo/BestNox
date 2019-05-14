@@ -5,6 +5,30 @@
     /// </summary>
     public static class SystemConstants
     {
+        // 発行前に設定する
+        /// <summary>
+        /// 使用ポート
+        /// Program.csで使用するので、外出し不可？
+        /// </summary>
+        public const string Port = "http://0.0.0.0:8000";
+
+        /// <summary>
+        /// サイトアドレス
+        /// （設定ファイルに外出し可？）
+        /// </summary>
+        public const string SiteUrl = "https://localhost:44307/";
+
+        /////////////////////////////////////////////////////////
+
+        /// <summary>
+        /// 環境：開発系
+        /// </summary>
+        public const string EnvDevelopment = "Development";
+        /// <summary>
+        /// 環境：本番系
+        /// </summary>
+        public const string EnvProduction = "Production";
+
         /// <summary>
         /// 現在のDB接続設定
         /// 詳細はappsettings.json
@@ -14,7 +38,7 @@
         /// <summary>
         /// DBパスワード環境変数名
         /// </summary>
-        public const string DbPasswordEnv = "BESTNOX_DATABASE_PASSWORD";
+        public const string DbPasswordEnv = "DATABASE_PASSWORD";
 
         /// <summary>
         /// 展示用モードかの環境変数名
@@ -60,11 +84,6 @@
         /// 非公開ファイルアップロード先
         /// </summary>
         public const string PrivateUploadsDirectry = "PrivateUploads";
-
-        /// <summary>
-        /// サイトアドレス
-        /// </summary>
-        public const string SiteUrl = "https://localhost:44307/";
 
         /// <summary>
         /// パスワードの確認誤りメッセージ

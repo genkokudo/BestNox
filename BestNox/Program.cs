@@ -18,7 +18,7 @@ namespace BestNox
         public static void Main(string[] args)
         {
             // Webホスト作成
-            var host = CreateWebHostBuilder(args).Build();
+            var host = CreateWebHostBuilder(args).UseUrls(SystemConstants.Port).Build();
 
             // 権限データがなければ作成する
             CreateRole(host);

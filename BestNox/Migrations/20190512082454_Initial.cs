@@ -48,6 +48,50 @@ namespace BestNox.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "DailyRecords",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    DocumentDate = table.Column<DateTime>(nullable: false),
+                    Title = table.Column<string>(type: "text", maxLength: 50, nullable: false),
+                    Detail = table.Column<string>(type: "text", maxLength: 30000, nullable: false),
+                    CreatedBy = table.Column<string>(maxLength: 255, nullable: true),
+                    CreatedDate = table.Column<DateTime>(nullable: true),
+                    UpdatedBy = table.Column<string>(maxLength: 255, nullable: true),
+                    UpdatedDate = table.Column<DateTime>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DailyRecords", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "QaDatas",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Title = table.Column<string>(type: "text", maxLength: 50, nullable: false),
+                    Question = table.Column<string>(type: "text", nullable: false),
+                    Answer = table.Column<string>(type: "text", nullable: true),
+                    IsSolved = table.Column<bool>(nullable: false),
+                    RelativeNo = table.Column<int>(nullable: false),
+                    CategoryId = table.Column<int>(nullable: false),
+                    IsPublic = table.Column<bool>(nullable: false),
+                    CreatedBy = table.Column<string>(maxLength: 255, nullable: true),
+                    CreatedDate = table.Column<DateTime>(nullable: true),
+                    UpdatedBy = table.Column<string>(maxLength: 255, nullable: true),
+                    UpdatedDate = table.Column<DateTime>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_QaDatas", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "SystemParameters",
                 columns: table => new
                 {
@@ -55,17 +99,40 @@ namespace BestNox.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     CategoryId = table.Column<int>(nullable: false),
                     OrderNo = table.Column<int>(nullable: false),
-                    RelativeNo = table.Column<int>(nullable: false),
+                    Display = table.Column<string>(type: "text", nullable: false),
                     CurrentValue = table.Column<string>(type: "text", nullable: false),
-                    CreatedBy = table.Column<int>(nullable: true),
+                    CreatedBy = table.Column<string>(maxLength: 255, nullable: true),
                     CreatedDate = table.Column<DateTime>(nullable: true),
-                    UpdatedBy = table.Column<int>(nullable: true),
+                    UpdatedBy = table.Column<string>(maxLength: 255, nullable: true),
                     UpdatedDate = table.Column<DateTime>(nullable: true),
                     IsDeleted = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_SystemParameters", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UploadFiles",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Comment = table.Column<string>(maxLength: 200, nullable: true),
+                    Filename = table.Column<string>(maxLength: 60, nullable: true),
+                    Size = table.Column<float>(nullable: false),
+                    TmpFilename = table.Column<string>(maxLength: 50, nullable: true),
+                    IsPublic = table.Column<bool>(nullable: false),
+                    ContentType = table.Column<string>(maxLength: 50, nullable: true),
+                    CreatedBy = table.Column<string>(maxLength: 255, nullable: true),
+                    CreatedDate = table.Column<DateTime>(nullable: true),
+                    UpdatedBy = table.Column<string>(maxLength: 255, nullable: true),
+                    UpdatedDate = table.Column<DateTime>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UploadFiles", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -114,8 +181,8 @@ namespace BestNox.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(maxLength: 128, nullable: false),
-                    ProviderKey = table.Column<string>(maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(nullable: false),
+                    ProviderKey = table.Column<string>(nullable: false),
                     ProviderDisplayName = table.Column<string>(nullable: true),
                     UserId = table.Column<string>(nullable: false)
                 },
@@ -159,8 +226,8 @@ namespace BestNox.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<string>(nullable: false),
-                    LoginProvider = table.Column<string>(maxLength: 128, nullable: false),
-                    Name = table.Column<string>(maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(nullable: false),
                     Value = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -210,6 +277,21 @@ namespace BestNox.Migrations
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DailyRecords_CreatedBy",
+                table: "DailyRecords",
+                column: "CreatedBy");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_QaDatas_CreatedBy",
+                table: "QaDatas",
+                column: "CreatedBy");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UploadFiles_CreatedBy",
+                table: "UploadFiles",
+                column: "CreatedBy");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -230,7 +312,16 @@ namespace BestNox.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "DailyRecords");
+
+            migrationBuilder.DropTable(
+                name: "QaDatas");
+
+            migrationBuilder.DropTable(
                 name: "SystemParameters");
+
+            migrationBuilder.DropTable(
+                name: "UploadFiles");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

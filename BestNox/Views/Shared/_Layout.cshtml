@@ -12,14 +12,6 @@
     <!-- 開発系以外 -->
     <environment exclude="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-        <!--デプロイが確認できるまで残しておく-->
-        <!--
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
-              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute"
-              crossorigin="anonymous"
-              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" />
-        -->
     </environment>
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
@@ -28,11 +20,22 @@
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
                 <!-- 窓が狭い場合はハンバーガーメニューにする -->
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">架空会社BestNox</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+                <!-- 開発系 -->
+                <environment include="Development">
+                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">（開発用）架空会社BestNox</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </environment>
+                <!-- 開発系以外 -->
+                <environment exclude="Development">
+                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">架空会社BestNox</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </environment>
                 <!-- メニュー -->
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <!-- メニューのログイン部分は別ファイルに記述 -->
