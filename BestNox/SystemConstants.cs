@@ -111,5 +111,17 @@
         /// システムパラメータ：分類コード：メモ一覧の背景色
         /// </summary>
         public const int SystemPatameterMemoBack = 3;
+        /// <summary>
+        /// システムパラメータ：分類コード：システムモード切替
+        /// </summary>
+        public const int SystemPatameterMode = 4;
+        /// <summary>
+        /// システムパラメータ：分類コード：ゲストの投稿ロック
+        /// </summary>
+        public const int SystemPatameterModeDemo = 1;
+        /// <summary>
+        /// システムパラメータ：分類コード：システムモード切替、管理者権限登録可能
+        /// </summary>
+        public const int SystemPatameterModeRegisterAdmin = 2;
     }
 }

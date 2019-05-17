@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using BestNox.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace BestNox.Areas.Identity.Pages.Account
@@ -18,15 +21,18 @@ namespace BestNox.Areas.Identity.Pages.Account
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
+        private readonly ApplicationDbContext _context;
 
         public RegisterModel(
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
-            ILogger<RegisterModel> logger)
+            ILogger<RegisterModel> logger,
+            ApplicationDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
+            _context = context;
         }
 
         [BindProperty]
@@ -55,8 +61,22 @@ namespace BestNox.Areas.Identity.Pages.Account
             public bool IsAdministrator { get; set; }
         }
 
-        public void OnGet(string returnUrl = null)
+        public async Task OnGetAsync(string returnUrl = null)
         {
+            var list = await _context.SystemParameters.Where(d => !d.IsDeleted && d.CategoryId == SystemConstants.SystemPatameterMode && d.OrderNo == SystemConstants.SystemPatameterModeRegisterAdmin).ToListAsync();
+            if (list.Count == 0
+                || list.Count > 0 && list[0].CurrentValue == "1")
+            {
+                // 管理者権限登録可能
+                // ・初期状態の場合
+                // ・対象レコードが無いとき
+                // ・対象レコードの値が1のとき
+                ViewData["IsAdminEnable"] = "1";
+            }
+            else
+            {
+                ViewData["IsAdminEnable"] = "0";
+            }
             ReturnUrl = returnUrl;
         }
 

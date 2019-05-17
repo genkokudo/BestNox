@@ -5,7 +5,6 @@
 }
 
 <h1>@ViewData["Title"]</h1>
-
 <div class="row">
     <div class="col-md-6">
         <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
@@ -13,7 +12,7 @@
             <hr />
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Input.UserName">UserName - 後で変更できます！</label>
+                <label asp-for="Input.UserName">UserName - 英数字のみです。</label>
                 <input asp-for="Input.UserName" class="form-control" />
                 <span asp-validation-for="Input.UserName" class="text-danger"></span>
             </div>
@@ -28,17 +27,18 @@
                 <input asp-for="Input.ConfirmPassword" class="form-control" />
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
-            <!-- 管理者権限付与、普段は封印すること -->
-            <!--
-    <div class="form-group">
-        <div class="checkbox">
-            <label asp-for="Input.IsAdministrator">
-                <input asp-for="Input.IsAdministrator" />
-                @Html.DisplayNameFor(m => m.Input.IsAdministrator)
-            </label>
-        </div>
-    </div>
-        -->
+            <!-- 管理者権限付与、管理者のパラメータ設定画面で表示切替できる -->
+            @if (ViewBag.IsAdminEnable == "1")
+            {
+            <div class="form-group">
+                <div class="checkbox">
+                    <label asp-for="Input.IsAdministrator">
+                        <input asp-for="Input.IsAdministrator" />
+                        @Html.DisplayNameFor(m => m.Input.IsAdministrator)
+                    </label>
+                </div>
+            </div>
+            }
             <button type="submit" class="btn btn-primary">これでOK！</button>
         </form>
     </div>
