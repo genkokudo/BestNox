@@ -16,6 +16,8 @@ namespace BestNox
 {
     public class Startup
     {
+        public const string RootsName = "default";
+        public const string RootsTemplate = "{controller=Home}/{action=Index}/{id?}";
         public IConfiguration Configuration { get; }
 
         public IHostingEnvironment Environment { get; }
@@ -82,13 +84,27 @@ namespace BestNox
             {
                 // 本番系は接続先をappsettingsから、パスワードを環境変数から取得する
                 // マイグレーションを行う場合、環境名は"Development"になり、環境変数から値が取れないのでここは使えない。
-                services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseMySql(Configuration.GetConnectionString(SystemConstants.Connection) + "Password=" + Configuration.GetValue<string>(SystemConstants.DbPasswordEnv) + ";",
-                    mySqlOptions =>
-                    {
-                        mySqlOptions.ServerVersion(new Version(10, 3, 13), ServerType.MariaDb);
-                    }
-                ));
+                if (Configuration.GetValue<string>(SystemConstants.IsDemoEnv) == "1")
+                {
+                    // デモ版
+                    services.AddDbContext<ApplicationDbContext>(options =>
+                    options.UseMySql(Configuration.GetConnectionString(SystemConstants.ConnectionDemo) + "Password=" + Configuration.GetValue<string>(SystemConstants.DbPasswordEnv) + ";",
+                        mySqlOptions =>
+                        {
+                            mySqlOptions.ServerVersion(new Version(10, 3, 13), ServerType.MariaDb);
+                        }
+                    ));
+                }
+                else
+                {
+                    services.AddDbContext<ApplicationDbContext>(options =>
+                    options.UseMySql(Configuration.GetConnectionString(SystemConstants.Connection) + "Password=" + Configuration.GetValue<string>(SystemConstants.DbPasswordEnv) + ";",
+                        mySqlOptions =>
+                        {
+                            mySqlOptions.ServerVersion(new Version(10, 3, 13), ServerType.MariaDb);
+                        }
+                    ));
+                }
             }
 
             // デフォルトUI
@@ -104,7 +120,7 @@ namespace BestNox
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             // アプリケーション設定の読み込み
-            var defaultParameter = services.Configure<DefaultParameters>(this.Configuration.GetSection(SystemConstants.DefaultParameters));
+            var defaultParameter = services.Configure<DefaultParameters>(Configuration.GetSection(SystemConstants.DefaultParameters));
         }
 
         /// <summary>
@@ -128,12 +144,25 @@ namespace BestNox
                 app.UseExceptionHandler("/Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
-            }
+
+                // アプリをサーバのサブディレクトリに配置する
+                if(Configuration.GetValue<string>(SystemConstants.IsDemoEnv) == "1")
+                {
+                    // デモ版
+                    app.UsePathBase(Configuration.GetValue<string>(SystemConstants.PathBaseDemo));
+                }
+                else
+                {
+                    app.UsePathBase(Configuration.GetValue<string>(SystemConstants.PathBase));
+                }
+                
+            };
 
             // HTTPをHTTPSにリダイレクトする
             app.UseHttpsRedirection();
 
             // 静的ファイルのルーティング設定
+            // UsePathBaseの後に書かなければならない
             // /wwwroot 配下のファイルに対して直接 URL アクセスが可能となる
             // /wwwroot/css/site.css というファイルに対しては http://..../css/site.css という URL でアクセスを行うことができる。
             app.UseStaticFiles();
@@ -146,9 +175,9 @@ namespace BestNox
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
-                    name: "default",    // ルート名
-                    template: "{controller=Home}/{action=Index}/{id?}");    // URIパターン(デフォルト値付きで設定、defalts:パラメータは使用しない)
-                // id?は任意に設定できるパラメータとなる
+                    name: RootsName,    // ルート名
+                    template: RootsTemplate);    // URIパターン(デフォルト値付きで設定、defalts:パラメータは使用しない)
+                                                                            // id?は任意に設定できるパラメータとなる
             });
 
             // cookieポリシーを使用する

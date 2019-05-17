@@ -17,8 +17,17 @@ namespace BestNox
     {
         public static void Main(string[] args)
         {
+            // ここでもappsettings.jsonを読みたい
+            var config = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: true)
+                .Build();
+
+            // 使用するポート
+            var port = "http://0.0.0.0:" + config.GetValue<string>(SystemConstants.Port);
+
             // Webホスト作成
-            var host = CreateWebHostBuilder(args).UseUrls(SystemConstants.Port).Build();
+            var host = CreateWebHostBuilder(args).UseUrls(port).Build();
 
             // 権限データがなければ作成する
             CreateRole(host);

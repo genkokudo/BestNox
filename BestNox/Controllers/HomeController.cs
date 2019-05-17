@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using BestNox.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Hosting;
 
 namespace BestNox.Controllers
 {
@@ -16,6 +17,11 @@ namespace BestNox.Controllers
     public class HomeController : Controller
     {
         public IConfiguration Configuration { get; }
+
+        /// <summary>
+        /// 環境変数を読み込むため、コンフィグを使用する
+        /// </summary>
+        /// <param name="configuration"></param>
         public HomeController(IConfiguration configuration)
         {
             Configuration = configuration;

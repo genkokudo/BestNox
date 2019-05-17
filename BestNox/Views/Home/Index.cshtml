@@ -7,50 +7,51 @@
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
-<div class="jumbotron" style="background:url(/images/ayameike.png); background-size:cover;">
+<div class="jumbotron" style="background:url(@($"{Context.Request.Scheme}://{Context.Request.Host}{Context.Request.PathBase}")/images/ayameike.png); background-size:cover;">
     <h1 class="display-4">架空会社BestNoxへようこそ！</h1>
     <p class="lead">どうぞおくつろぎください</p>
 </div>
 @if (ViewBag.IsDemo == "1")
 {
-    <h2>★これは展示用モードです★</h2>
+<h2>★これは展示用モードです★</h2>
 }
+
 @if (SignInManager.IsSignedIn(User))
 {
-    <h2>ユーザーメニュー</h2>
+<h2>ユーザーメニュー</h2>
     // サインインしている場合
-    <div class="row">
-        <div class="col-sm text-center mb-4">
-            <form method="post">
-                <button asp-controller="DailyRecords" asp-action="Index" class="btn btn-primary w-75">業務日報</button>
-            </form>
-        </div>
-        <div class="col-sm text-center mb-4">
-            <form method="post">
-                <button asp-controller="UploadFiles" asp-action="Index" class="btn btn-primary w-75">ファイルのアップロード</button>
-            </form>
-        </div>
-        <div class="col-sm text-center mb-4">
-            <form method="post">
-                <button asp-controller="QaDatas" asp-action="Index" class="btn btn-primary w-75">オンラインメモ</button>
-            </form>
-        </div>
+<div class="row">
+    <div class="col-sm text-center mb-4">
+        <form method="post">
+            <button asp-controller="DailyRecords" asp-action="Index" class="btn btn-primary w-75">業務日報</button>
+        </form>
     </div>
+    <div class="col-sm text-center mb-4">
+        <form method="post">
+            <button asp-controller="UploadFiles" asp-action="Index" class="btn btn-primary w-75">ファイルのアップロード</button>
+        </form>
+    </div>
+    <div class="col-sm text-center mb-4">
+        <form method="post">
+            <button asp-controller="QaDatas" asp-action="Index" class="btn btn-primary w-75">オンラインメモ</button>
+        </form>
+    </div>
+</div>
 
     if (User.IsInRole(SystemConstants.Administrator))
     {
-        <h2>管理者用メニュー</h2>
-        <div class="row">
-            <div class="col-sm text-center mb-4">
-                <form method="post">
-                    <button asp-controller="SystemParameters" asp-action="Index" class="btn btn-primary w-75">システムパラメータ設定</button>
-                </form>
-            </div>
-            <div class="col-sm text-center mb-4">
-            </div>
-            <div class="col-sm text-center mb-4">
-            </div>
-        </div>
+<h2>管理者用メニュー</h2>
+<div class="row">
+    <div class="col-sm text-center mb-4">
+        <form method="post">
+            <button asp-controller="SystemParameters" asp-action="Index" class="btn btn-primary w-75">システムパラメータ設定</button>
+        </form>
+    </div>
+    <div class="col-sm text-center mb-4">
+    </div>
+    <div class="col-sm text-center mb-4">
+    </div>
+</div>
     }
 }
 @ViewData["Message"]

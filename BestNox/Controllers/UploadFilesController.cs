@@ -57,7 +57,7 @@ namespace BestNox.Controllers
             // 公開用アドレスの表示
             if (uploadFile.IsPublic)
             {
-                ViewData["Url"] = Path.Combine(SystemConstants.SiteUrl, SystemConstants.PublicUploads, uploadFile.TmpFilename);
+                ViewData["Url"] = Path.Combine($"{Request.Scheme}://{Request.Host}{Request.Path}", SystemConstants.PublicUploads, uploadFile.TmpFilename);
             }
             return View(uploadFile);
         }
