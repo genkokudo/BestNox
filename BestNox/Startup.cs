@@ -159,7 +159,8 @@ namespace BestNox
             };
 
             // HTTPをHTTPSにリダイレクトする
-            app.UseHttpsRedirection();
+            // サーバ側で設定していない場合111: Connection refusedになるのでコメントアウト
+            //app.UseHttpsRedirection();
 
             // 静的ファイルのルーティング設定
             // UsePathBaseの後に書かなければならない
