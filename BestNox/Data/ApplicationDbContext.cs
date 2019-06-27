@@ -28,6 +28,13 @@ namespace BestNox.Data
         }
 
         #region 標準項目設定
+        /// <summary>
+        /// 登録・更新時に呼び出して
+        /// 標準項目（更新日時とか）の設定を行う
+        /// </summary>
+        /// <param name="name">登録・更新者名</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         public Task<int> SaveChangesAsync(string name, CancellationToken cancellationToken = default(CancellationToken))
         {
             // 保存時に日時を設定する
@@ -60,7 +67,7 @@ namespace BestNox.Data
         #endregion
 
         /// <summary>
-        /// EfCore shamanを使用する設定
+        /// EfCore shaman（不具合対応モジュール）を使用する設定
         /// </summary>
         /// <param name="builder"></param>
         protected override void OnModelCreating(ModelBuilder builder)

@@ -1,0 +1,4 @@
+.navbar-light .navbar-brand:focus, .navbar-light .navbar-brand:hover {
+  color: rgb(33,33,255);
+}
+

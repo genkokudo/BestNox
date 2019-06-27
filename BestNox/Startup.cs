@@ -160,7 +160,12 @@ namespace BestNox
 
             // HTTPをHTTPSにリダイレクトする
             // サーバ側で設定していない場合111: Connection refusedになるのでコメントアウト
-            //app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
+            app.Use((context, next) =>
+            {
+                context.Request.Scheme = "https";
+                return next();
+            });
 
             // 静的ファイルのルーティング設定
             // UsePathBaseの後に書かなければならない

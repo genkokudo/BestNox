@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@using BestNox;
+@using Microsoft.AspNetCore.Identity
+<!-- ログインや権限によって表示を分岐する -->
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+<!DOCTYPE html>
 <!-- 共通のレイアウト -->
 <html>
 <head>
@@ -13,59 +18,128 @@
     <environment exclude="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     </environment>
-    <link rel="stylesheet" href="~/css/site.css" />
+    <!-- <link rel="stylesheet" href="~/css/site.css" /> -->
+    <link rel="stylesheet" href="~/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="~/fonts/ionicons.min.css">
+    <link rel="stylesheet" href="~/css/Features-Blue.css">
+    <link rel="stylesheet" href="~/css/Footer-Dark.css">
+    <link rel="stylesheet" href="~/css/Header-Blue.css">
+    <link rel="stylesheet" href="~/css/Login-Form-Dark.css">
+    <link rel="stylesheet" href="~/css/Projects-Clean.css">
+    <link rel="stylesheet" href="~/css/styles.css">
+    <link rel="stylesheet" href="~/css/Team-Clean.css">
 </head>
-<body>
+<body style="background-image: url(@($"{Context.Request.Scheme}://{Context.Request.Host}{Context.Request.PathBase}")/images/37720705_s.jpg););">
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <!-- 窓が狭い場合はハンバーガーメニューにする -->
-                <!-- 開発系 -->
-                <environment include="Development">
-                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">（開発用）架空会社BestNox</a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                            aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                </environment>
-                <!-- 開発系以外 -->
-                <environment exclude="Development">
-                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">架空会社BestNox</a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                            aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                </environment>
-                <!-- メニュー -->
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <!-- メニューのログイン部分は別ファイルに記述 -->
-                    <partial name="_LoginPartial" />
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
+        <div>
+            <div class="header-blue">
+                <nav class="navbar navbar-dark navbar-expand-md navigation-clean-search">
+                    <div class="container">
+                        <!-- 窓が狭い場合はハンバーガーメニューにする -->
+                        <!-- 開発系 -->
+                        <environment include="Development">
+                            <a class="navbar-brand" href="#">BestNox Develop</a>
+                        </environment>
+                        <!-- 開発系以外 -->
+                        <environment exclude="Development">
+                            <a class="navbar-brand" href="#">BestNox</a>
+                        </environment>
+                        <button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navcol-1">
+                            <ul class="nav navbar-nav">
+                                <li class="nav-item" role="presentation"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                                <environment exclude="Development">
+                                    <!-- プライバシーポリシーは開発系以外に限定する -->
+                                    <li class="nav-item" role="presentation"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a></li>
+                                </environment>
+                                <!-- ログイン限定 -->
+                                @if (SignInManager.IsSignedIn(User))
+                                {
+                                    <li class="dropdown nav-item">
+                                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href="#">User Menu </a>
+                                        <div class="dropdown-menu" role="menu">
+                                            <a class="dropdown-item nav-link" role="presentation" asp-area="" asp-controller="DailyRecords" asp-action="Index">Daily Report</a>
+                                            <a class="dropdown-item nav-link" role="presentation" asp-area="" asp-controller="QaDatas" asp-action="Index">Online Memo</a>
+                                            <!-- アップローダは開発系以外に限定する -->
+                                            <environment exclude="Development">
+                                                <a class="dropdown-item nav-link" role="presentation" asp-area="" asp-controller="UploadFiles" asp-action="Index">File Uploader</a>
+                                            </environment>
+                                        </div>
+                                    </li>
+                                    if (User.IsInRole(SystemConstants.Administrator))
+                                    {
+                                        <li class="dropdown nav-item">
+                                            <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href="#">Administrator </a>
+                                            <div class="dropdown-menu" role="menu">
+                                                <a class="dropdown-item nav-link" role="presentation" asp-area="" asp-controller="SystemParameters" asp-action="Index">System Parameters</a>
+                                            </div>
+                                        </li>
+                                    }
+                                }
+                            </ul>
+                            <!-- メニューのログイン部分は別ファイルに記述 -->
+                            <form class="form-inline mr-auto" target="_self"></form>
+                            @if (SignInManager.IsSignedIn(User))
+                            {
+                                // サインインしている場合
+                                <span class="navbar-text"> <a class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @(User.Identity.Name)!</a></span>
+                                <a class="btn btn-light action-button" role="button" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">Logout</a>
+                            }
+                            else
+                            {
+                                // サインインしていない場合
+                                <span class="navbar-text"> <a class="nav-link" asp-area="Identity" asp-page="/Account/Logout" title="Manage">Log In</a></span>
+                                <a class="btn btn-light action-button" role="button" href="#">Register</a>
+                                <a class="btn btn-light action-button" role="button" asp-area="Identity" asp-page="/Account/Register">Register</a>
+                            }
+                        </div>
+                    </div>
+                </nav>
             </div>
-        </nav>
+        </div>
     </header>
-    <div class="container">
-        <partial name="_CookieConsentPartial" />
-        <main role="main" class="pb-3">
-            <!-- 各ページの内容を表示 -->
-            @RenderBody()
-        </main>
-    </div>
+    <partial name="_CookieConsentPartial" />
+    @*@if (ViewBag.IsDemo == "1")
+        {
+        <h2>★これは展示用モードです★</h2>
+    }*@
+    <!-- 各ページの内容を表示 -->
+    @RenderBody()
 
     <!-- フッター -->
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2019 - 銀兵堂 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
+    <div class="footer-dark">
+        <footer>
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-6 col-md-3 item">
+                        <h3>Services</h3>
+                        <ul>
+                            <li><a href="#">Web design</a></li>
+                            <li><a href="#">Development</a></li>
+                            <li><a href="#">Hosting</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-sm-6 col-md-3 item">
+                        <h3>About</h3>
+                        <ul>
+                            <li><a href="#">Company</a></li>
+                            <li><a href="#">Team</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6 item text">
+                        <h3>BestNox</h3>
+                        <p>What is written on this site is fiction. In fact, cats never work. We do not offer magical services. Aren't you able to do that? There is no dream or hope in this world. All you need to do is to face reality.</p>
+                    </div>
+                    <div class="col item social"><a href="#"><i class="icon ion-social-facebook"></i></a><a href="#"><i class="icon ion-social-twitter"></i></a><a href="#"><i class="icon ion-social-snapchat"></i></a><a href="#"><i class="icon ion-social-instagram"></i></a></div>
+                </div>
+                <p class="copyright">BestNox © 2019</p>
+            </div>
+        </footer>
+    </div>
 
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>

@@ -3,104 +3,138 @@
 @{
     ViewData["Title"] = SystemConstants.Title;
 }
-<!-- ログインや権限によって表示を分岐する -->
-@using Microsoft.AspNetCore.Identity
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
-<div class="jumbotron" style="background:url(@($"{Context.Request.Scheme}://{Context.Request.Host}{Context.Request.PathBase}")/images/ayameike.png); background-size:cover;">
-    <h1 class="display-4">架空会社BestNoxへようこそ！</h1>
-    <p class="lead">どうぞおくつろぎください</p>
-</div>
-@if (ViewBag.IsDemo == "1")
-{
-<h2>★これは展示用モードです★</h2>
-}
-
-@if (SignInManager.IsSignedIn(User))
-{
-<h2>ユーザーメニュー</h2>
-    // サインインしている場合
-<div class="row">
-    <div class="col-sm text-center mb-4">
-        <form method="post">
-            <button asp-controller="DailyRecords" asp-action="Index" class="btn btn-primary w-75">業務日報</button>
-        </form>
-    </div>
-    <div class="col-sm text-center mb-4">
-        <form method="post">
-            <button asp-controller="UploadFiles" asp-action="Index" class="btn btn-primary w-75">ファイルのアップロード</button>
-        </form>
-    </div>
-    <div class="col-sm text-center mb-4">
-        <form method="post">
-            <button asp-controller="QaDatas" asp-action="Index" class="btn btn-primary w-75">オンラインメモ</button>
-        </form>
+<div class="header-blue">
+    <div class="container hero">
+        <div class="row">
+            <div class="col-12 col-lg-6 col-xl-5 offset-xl-1">
+                <h1>We work for the money.</h1>
+                <p>Getting money is to provide value to people. There is no value for simple work. We eliminate simple tasks.<br><br>Even if the common people despise us, we will not step back. That is the BestNox.</p><button class="btn btn-light btn-lg action-button"
+                                                                                                                                                                                                                                  type="button">
+                    Learn More
+                </button>
+            </div>
+            <div class="col-md-5 col-lg-5 offset-lg-1 offset-xl-0 d-none d-lg-block phone-holder">
+                <div class="iphone-mockup">
+                    <img class="device" src="~/images/iphone.svg">
+                    <div class="screen"></div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
-    if (User.IsInRole(SystemConstants.Administrator))
-    {
-<h2>管理者用メニュー</h2>
-<div class="row">
-    <div class="col-sm text-center mb-4">
-        <form method="post">
-            <button asp-controller="SystemParameters" asp-action="Index" class="btn btn-primary w-75">システムパラメータ設定</button>
-        </form>
-    </div>
-    <div class="col-sm text-center mb-4">
-    </div>
-    <div class="col-sm text-center mb-4">
-    </div>
-</div>
-    }
-}
-@ViewData["Message"]
-@ViewBag.Message
-<div class="card-deck">
-    <div class="card border-primary shadow mb-4">
-        <img class="card-img-top" src="~/images/jiji.png" alt="Card image cap">
-        <div class="card-header"> じぃじぃ♂：ここはどこですか？ </div>
-        <div class="card-body">
-            <h4>架空の会社BestNoxです</h4>
-            <p class="card-text"><br> 京都府にあります。<br>でも、猫の写真は岐阜です。<br>空の写真は奈良です。</p>
+<div class="features-blue">
+    <div class="container">
+        <div class="intro">
+            <h2 class="text-center">Features</h2>
+            <p class="text-center">Our service is unbeatable!<br>It is a strong force that can change even desperate destiny!</p>
         </div>
-    </div>
-    <div class="card border-primary shadow mb-4">
-        <img class="card-img-top" src="~/images/tai.png" alt="Card image cap">
-        <div class="card-header"> たいすけ♂：BestNoxって何ですか？ </div>
-        <div class="card-body">
-            <h4>架空の組織です</h4>
-            <p>私達、お金のために働きます！<br> 例えそれが地位をかける戦いであっても 私達は一歩も退きません！<br> それが、BestNoxなのです！！</p>
-        </div>
-    </div>
-    <div class="card border-primary shadow mb-4">
-        <img class="card-img-top" src="~/images/tango.png" alt="Card image cap">
-        <div class="card-header"> たんご♂：目的は何ですか？ </div>
-        <div class="card-body">
-            <h4>単純労働を消すことです</h4>
-            <p>世の中には会社に通うことでお金が発生すると思い込み、単純労働に甘えている人間で溢れています。<br>私達はその単純労働を駆逐するのです！</p>
+        <div class="row features">
+            <div class="col-sm-6 col-md-4 item">
+                <i class="fa fa-map-marker icon"></i>
+                <h3 class="name">Unlimited environment</h3>
+                <p class="description">Our company has introduced the latest working environment. You can work without choosing time or place. This is very useful for workers.</p>
+            </div>
+            <div class="col-sm-6 col-md-4 item">
+                <i class="fa fa-clock-o icon"></i>
+                <h3 class="name">Strong insurance</h3>
+                <p class="description">Even if you get hit by a truck, you can incarnate into another world depending on the judgment of the gods. At this time, you will be able to use some cheats.</p>
+            </div>
+            <div class="col-sm-6 col-md-4 item">
+                <i class="fa fa-list-alt icon"></i>
+                <h3 class="name">Future tools</h3>
+                <p class="description">A mysterious robot will come to your room from a distant future. He will take out a strange tool from the pocket on his body and fulfill your wish.<br></p>
+            </div>
+            <div class="col-sm-6 col-md-4 item">
+                <i class="fa fa-flash icon"></i>
+                <h3 class="name">Amazing power</h3>
+                <p class="description">Consuming 24 points of magic power can inflict 156 to 172 damage to all enemies. This is a large value that can not be tolerated by the general public.</p>
+            </div>
+            <div class="col-sm-6 col-md-4 item">
+                <i class="fa fa-plane icon"></i>
+                <h3 class="name">Send to hell</h3>
+                <p class="description">You can send your opponent to hell instantly. However, the person who used also goes to hell after death. He has to wander in the darkness forever, with pain and suffering.</p>
+            </div>
+            <div class="col-sm-6 col-md-4 item">
+                <i class="fa fa-heart icon"></i>
+                <h3 class="name">Transformable</h3>
+                <p class="description">If you have a kind heart to protect your friends, you can be transformed into a legendary warrior.<br>(women only)</p>
+            </div>
         </div>
     </div>
 </div>
-<!-- 折り畳み情報 -->
-<button type="button" class="btn btn-info mb-4" data-toggle="collapse" data-target="#ideas" aria-expanded="false" aria-controls="ideas">
-    今後の実装課題・アイデア
-</button>
-<div class="collapse" id="ideas">
-    <div class="card-deck mb-4">
-        <div class="card"><div class="card-header">権限管理</div><div class="card-body">余裕があれば追加</div></div>
-        <div class="card"><div class="card-header">工数登録</div><div class="card-body">余裕があれば追加</div></div>
-        <div class="card"><div class="card-header">コードジェネレータ</div><div class="card-body">やるなら簡単なもののみ。DNTの機能全部載せるのは無理。</div></div>
-        <div class="card"><div class="card-header">GoogleAPIを使った何か</div><div class="card-body">面白そうだしTypeScriptを活かすチャンス！何かない？</div></div>
+<div class="projects-clean">
+    <div class="container">
+        <div class="intro">
+            <h2 class="text-center">Projects </h2>
+            <p class="text-center">We can use the sacred and powerful techniques to revive even the dying world. It is a future technology that solves problems that were thought to be impossible until now! </p>
+        </div>
+        <div class="row projects">
+            <div class="col-sm-6 col-lg-4 item">
+                <img class="img-fluid" src="~/images/desk.jpg">
+                <h3 class="name">Educational software</h3>
+                <p class="description">
+                    There is a lot of waste and no freedom in the educational setting. Because teachers in the country teach the same contents to each student.<br><br>Using this system, students can review videos that they are not good at repeatedly.
+                    In addition, teachers can be devoted to helping students.<br><br>Even a busy office worker or an unskilled old man can learn specializedly at any time they like and expand their potential.
+                </p>
+            </div>
+            <div class="col-sm-6 col-lg-4 item">
+                <img class="img-fluid" src="~/images/building.jpg">
+                <h3 class="name">Voting system</h3>
+                <p class="description">
+                    The current voting system has many shortcomings and needs improvement. Since the voting destination is described by hand, counting errors and counterfeiting may occur. Since voting takes analog and time-consuming methods, it is expensive
+                    and difficult to confirm the will of the people.<br><br>There have been various debates over this issue concerning computerization. However, it has been denied because it is a problem when hacked by a technician.<br><br>By making
+                    full use of P2P technology, it is possible to introduce a tamper-proof data system. We will be able to vote more familiar and accurate than ever before.
+                </p>
+            </div>
+            <div class="col-sm-6 col-lg-4 item">
+                <img class="img-fluid" src="~/images/loft.jpg">
+                <h3 class="name">Beating Furniture</h3>
+                <p class="description">
+                    In recent years, small-scale housing and furniture for singles have been actively provided. But it is not enough just to protect your mind from loneliness.<br><br>We need someone to greet me in the morning, and someone to wait for
+                    the return from work.<br><br>The magical furniture we offer will learn about you like a living being. It imitates the voice of your ideal male or female image and keeps you away from loneliness.
+                </p>
+            </div>
+        </div>
     </div>
-    <div class="card-deck mb-4">
-        <div class="card"><div class="card-header">経費まとめ</div><div class="card-body">頑張りましょう</div></div>
-        <div class="card"><div class="card-header">リンク集</div><div class="card-body">頑張りましょう</div></div>
-        <div class="card"><div class="card-header">ブログ的なもの</div><div class="card-body">やるなら別サイト</div></div>
-    </div>
-    <div class="card-deck mb-4">
-        <div class="card"><div class="card-header">ゲームコーナー</div><div class="card-body">やるなら別サイト、できたらいいね</div></div>
-        <div class="card"><div class="card-header">APIでデータ収集してグラフ表示</div><div class="card-body">やるなら裏サイト</div></div>
-        <div class="card"><div class="card-header">サーバで動作中のBOTのステータス表示</div><div class="card-body">やるなら裏サイト</div></div>
+</div>
+<div class="team-clean">
+    <div class="container">
+        <div class="intro">
+            <h2 class="text-center">Team </h2>
+            <p class="text-center">The staff who combines the outstanding expertise and beauty.<br>They're working hard for their dreams every day.</p>
+        </div>
+        <div class="row people">
+            <div class="col-md-6 col-lg-4 item">
+                <img class="rounded-circle" src="~/images/jiji.png">
+                <h3 class="name">Jiji Gullinkambi</h3>
+                <p class="title">ALCHEMIST</p>
+                <p class="description">
+                    He is a specialist in alchemy. He did research on immortality, never admitting a short life. Such he also got married and made children. He realized that he could not stand bereavement with his family. Currently He works to make the
+                    proof that was born in this world.
+                </p>
+                <div class="social"><a href="#"><i class="fa fa-facebook-official"></i></a><a href="#"><i class="fa fa-twitter"></i></a><a href="#"><i class="fa fa-instagram"></i></a></div>
+            </div>
+            <div class="col-md-6 col-lg-4 item">
+                <img class="rounded-circle" src="~/images/tai.png">
+                <h3 class="name">Taisuke Fenrir</h3>
+                <p class="title">SORCERER</p>
+                <p class="description">
+                    He is an excellent wizard. He was immersed in the occult when he was young. One day he had a weird dream the night he meditated. He invaded an area called Collective Unconsciousness and met an evil spirit. &nbsp;He contracted with
+                    him to get the magical power. &nbsp;He will not tell anyone about his magic or contract.
+                </p>
+                <div class="social"><a href="#"><i class="fa fa-facebook-official"></i></a><a href="#"><i class="fa fa-twitter"></i></a><a href="#"><i class="fa fa-instagram"></i></a></div>
+            </div>
+            <div class="col-md-6 col-lg-4 item">
+                <img class="rounded-circle" src="~/images/tango.png">
+                <h3 class="name">Tango Kerberos</h3>
+                <p class="title">EXPLORER</p>
+                <p class="description">
+                    He has explored so many ruins and excavated treasures so far. He decided to join the organization to take advantage of the adventurer's intuition. Because his ability is worthwhile to be used by someone. He has known that his experience
+                    and cooperation with his companions were the most important treasures.
+                </p>
+                <div class="social"><a href="#"><i class="fa fa-facebook-official"></i></a><a href="#"><i class="fa fa-twitter"></i></a><a href="#"><i class="fa fa-instagram"></i></a></div>
+            </div>
+        </div>
     </div>
 </div>
