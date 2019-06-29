@@ -13,8 +13,7 @@
       "launchBrowser": true,
       "environmentVariables": {
         "DATABASE_PASSWORD": "password",
-        "IS_DEMO": "0",
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Demo"
       }
     },
     "BestNox": {

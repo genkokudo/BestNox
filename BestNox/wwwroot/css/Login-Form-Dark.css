@@ -27,13 +27,12 @@
 }
 
 .login-dark form .form-control {
-  background: none;
   border: none;
   border-bottom: 1px solid #434a52;
   border-radius: 0;
   box-shadow: none;
   outline: none;
-  color: inherit;
+  color: #000;
 }
 
 .login-dark form .btn-primary {

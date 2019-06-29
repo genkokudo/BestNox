@@ -47,7 +47,7 @@ namespace BestNox.Areas.Identity.Pages.Account
             public string UserName { get; set; }
 
             [Required]
-            [StringLength(100, ErrorMessage = "{2}字以上 {1}字以内 で決めてね", MinimumLength = 6)]
+            [StringLength(100, ErrorMessage = "{2} - {1} charactors", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
             public string Password { get; set; }

@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Configuration;
 
 namespace BestNox.Areas.Identity.Pages.Account
 {
@@ -39,14 +40,14 @@ namespace BestNox.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
+            [Required]  // 必須入力をクライアント判定する
             public string Username { get; set; }
 
             [Required]
             [DataType(DataType.Password)]
             public string Password { get; set; }
 
-            [Display(Name = "ログインしたままにする")]
+            [Display(Name = "Remember Me")]
             public bool RememberMe { get; set; }
         }
 
@@ -88,7 +89,7 @@ namespace BestNox.Areas.Identity.Pages.Account
                 }
                 if (result.RequiresTwoFactor)
                 {
-                    return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
+                    return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, Input.RememberMe });
                 }
                 if (result.IsLockedOut)
                 {

@@ -84,27 +84,13 @@ namespace BestNox
             {
                 // 本番系は接続先をappsettingsから、パスワードを環境変数から取得する
                 // マイグレーションを行う場合、環境名は"Development"になり、環境変数から値が取れないのでここは使えない。
-                if (Configuration.GetValue<string>(SystemConstants.IsDemoEnv) == "1")
-                {
-                    // デモ版
-                    services.AddDbContext<ApplicationDbContext>(options =>
-                    options.UseMySql(Configuration.GetConnectionString(SystemConstants.ConnectionDemo) + "Password=" + Configuration.GetValue<string>(SystemConstants.DbPasswordEnv) + ";",
-                        mySqlOptions =>
-                        {
-                            mySqlOptions.ServerVersion(new Version(10, 3, 13), ServerType.MariaDb);
-                        }
-                    ));
-                }
-                else
-                {
-                    services.AddDbContext<ApplicationDbContext>(options =>
-                    options.UseMySql(Configuration.GetConnectionString(SystemConstants.Connection) + "Password=" + Configuration.GetValue<string>(SystemConstants.DbPasswordEnv) + ";",
-                        mySqlOptions =>
-                        {
-                            mySqlOptions.ServerVersion(new Version(10, 3, 13), ServerType.MariaDb);
-                        }
-                    ));
-                }
+                services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseMySql(Configuration.GetConnectionString(SystemConstants.Connection) + "Password=" + Configuration.GetValue<string>(SystemConstants.DbPasswordEnv) + ";",
+                    mySqlOptions =>
+                    {
+                        mySqlOptions.ServerVersion(new Version(10, 3, 13), ServerType.MariaDb);
+                    }
+                ));
             }
 
             // デフォルトUI
@@ -140,21 +126,13 @@ namespace BestNox
             }
             else
             {
-                // 本番環境
+                // 本番・デモ環境
                 app.UseExceptionHandler("/Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
 
                 // アプリをサーバのサブディレクトリに配置する
-                if(Configuration.GetValue<string>(SystemConstants.IsDemoEnv) == "1")
-                {
-                    // デモ版
-                    app.UsePathBase(Configuration.GetValue<string>(SystemConstants.PathBaseDemo));
-                }
-                else
-                {
-                    app.UsePathBase(Configuration.GetValue<string>(SystemConstants.PathBase));
-                }
+                app.UsePathBase(Configuration.GetValue<string>(SystemConstants.PathBase));
                 
             };
 

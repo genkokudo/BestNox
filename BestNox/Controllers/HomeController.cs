@@ -16,15 +16,11 @@ namespace BestNox.Controllers
     /// </summary>
     public class HomeController : Controller
     {
-        public IConfiguration Configuration { get; }
-
         /// <summary>
         /// 環境変数を読み込むため、コンフィグを使用する
         /// </summary>
-        /// <param name="configuration"></param>
-        public HomeController(IConfiguration configuration)
+        public HomeController()
         {
-            Configuration = configuration;
         }
 
         /// <summary>
@@ -32,7 +28,6 @@ namespace BestNox.Controllers
         /// </summary>
         public IActionResult Index()
         {
-            ViewData["IsDemo"] = Configuration.GetValue<string>(SystemConstants.IsDemoEnv);
             // 引数に何も指定しない場合は、メソッド名と同じ名前のビューを返す。
             return View();
         }

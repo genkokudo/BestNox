@@ -1,47 +1,48 @@
 ﻿@page
 @model RegisterModel
 @{
-    ViewData["Title"] = "秘密基地メンバー登録";
+    ViewData["Title"] = "Register";
 }
-
-<h1>@ViewData["Title"]</h1>
-<div class="row">
-    <div class="col-md-6">
-        <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <h4>面白そうな組織なので私も加担したいです！</h4>
-            <hr />
+<div class="login-dark" style="background-image: url(@($"{Request.Scheme}://{Request.Host}{Request.PathBase}")/images/star-sky.jpg););">
+    <environment include="Demo">
+        <div class="alert alert-success" role="alert">
+            <span><strong>お知らせ</strong> 展示用システムですので、アカウントの作成はできません。</span>
+        </div>
+    </environment>
+    <environment exclude="Demo">
+        <form method="post">
+            <h2 class="sr-only">Registration Form</h2>
+            <div class="illustration"><i class="icon ion-ios-personadd"></i></div>
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Input.UserName">UserName - 英数字のみです。</label>
-                <input asp-for="Input.UserName" class="form-control" />
+                <input asp-for="Input.UserName" class="form-control" placeholder="UserName" />
                 <span asp-validation-for="Input.UserName" class="text-danger"></span>
             </div>
-
             <div class="form-group">
-                <label asp-for="Input.Password">Password - どこぞのシステムと違って平文保存していませんが、その証拠は見せられません。</label>
-                <input asp-for="Input.Password" class="form-control" />
+                <input asp-for="Input.Password" class="form-control" placeholder="Password" />
                 <span asp-validation-for="Input.Password" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Input.ConfirmPassword">Password確認 - 上と同じパスワードを入力してください。</label>
-                <input asp-for="Input.ConfirmPassword" class="form-control" />
+                <input asp-for="Input.ConfirmPassword" class="form-control" placeholder="ConfirmPassword" />
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
             <!-- 管理者権限付与、管理者のパラメータ設定画面で表示切替できる -->
             @if (ViewBag.IsAdminEnable == "1")
             {
-            <div class="form-group">
-                <div class="checkbox">
-                    <label asp-for="Input.IsAdministrator">
-                        <input asp-for="Input.IsAdministrator" />
-                        @Html.DisplayNameFor(m => m.Input.IsAdministrator)
-                    </label>
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label asp-for="Input.IsAdministrator">
+                            <input asp-for="Input.IsAdministrator" />
+                            @Html.DisplayNameFor(m => m.Input.IsAdministrator)
+                        </label>
+                    </div>
                 </div>
-            </div>
             }
-            <button type="submit" class="btn btn-primary">これでOK！</button>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-block">Register</button>
+            </div>
         </form>
-    </div>
+    </environment>
 </div>
 
 @section Scripts {

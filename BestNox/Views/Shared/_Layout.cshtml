@@ -1,10 +1,11 @@
 ﻿@using BestNox;
 @using Microsoft.AspNetCore.Identity
+@using Microsoft.Extensions.Configuration
 <!-- ログインや権限によって表示を分岐する -->
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
+@inject IConfiguration Configuration
 <!DOCTYPE html>
-<!-- 共通のレイアウト -->
 <html>
 <head>
     <meta charset="utf-8" />
@@ -24,10 +25,10 @@
     <link rel="stylesheet" href="~/css/Features-Blue.css">
     <link rel="stylesheet" href="~/css/Footer-Dark.css">
     <link rel="stylesheet" href="~/css/Header-Blue.css">
-    <link rel="stylesheet" href="~/css/Login-Form-Dark.css">
     <link rel="stylesheet" href="~/css/Projects-Clean.css">
     <link rel="stylesheet" href="~/css/styles.css">
     <link rel="stylesheet" href="~/css/Team-Clean.css">
+    <link rel="stylesheet" href="~/css/Login-Form-Dark.css">
 </head>
 <body style="background-image: url(@($"{Context.Request.Scheme}://{Context.Request.Host}{Context.Request.PathBase}")/images/37720705_s.jpg););">
     <header>
@@ -41,7 +42,10 @@
                             <a class="navbar-brand" href="#">BestNox Develop</a>
                         </environment>
                         <!-- 開発系以外 -->
-                        <environment exclude="Development">
+                        <environment include="Demo">
+                            <a class="navbar-brand" href="#">BestNox Demo</a>
+                        </environment>
+                        <environment include="Production">
                             <a class="navbar-brand" href="#">BestNox</a>
                         </environment>
                         <button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1">
@@ -51,8 +55,8 @@
                         <div class="collapse navbar-collapse" id="navcol-1">
                             <ul class="nav navbar-nav">
                                 <li class="nav-item" role="presentation"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                                <environment exclude="Development">
-                                    <!-- プライバシーポリシーは開発系以外に限定する -->
+                                <environment exclude="Demo">
+                                    <!-- プライバシーポリシーはデモ以外に限定する -->
                                     <li class="nav-item" role="presentation"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a></li>
                                 </environment>
                                 <!-- ログイン限定 -->
@@ -63,8 +67,8 @@
                                         <div class="dropdown-menu" role="menu">
                                             <a class="dropdown-item nav-link" role="presentation" asp-area="" asp-controller="DailyRecords" asp-action="Index">Daily Report</a>
                                             <a class="dropdown-item nav-link" role="presentation" asp-area="" asp-controller="QaDatas" asp-action="Index">Online Memo</a>
-                                            <!-- アップローダは開発系以外に限定する -->
-                                            <environment exclude="Development">
+                                            <environment exclude="Demo">
+                                                <!-- アップローダはデモ以外に限定する -->
                                                 <a class="dropdown-item nav-link" role="presentation" asp-area="" asp-controller="UploadFiles" asp-action="Index">File Uploader</a>
                                             </environment>
                                         </div>
@@ -86,13 +90,14 @@
                             {
                                 // サインインしている場合
                                 <span class="navbar-text"> <a class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @(User.Identity.Name)!</a></span>
-                                <a class="btn btn-light action-button" role="button" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">Logout</a>
+                                <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                                    <button type="submit" class="btn btn-light action-button">Logout</button>
+                                </form>
                             }
                             else
                             {
                                 // サインインしていない場合
-                                <span class="navbar-text"> <a class="nav-link" asp-area="Identity" asp-page="/Account/Logout" title="Manage">Log In</a></span>
-                                <a class="btn btn-light action-button" role="button" href="#">Register</a>
+                                <span class="navbar-text"> <a class="nav-link" asp-area="Identity" asp-page="/Account/Login" title="Manage">Log In</a></span>
                                 <a class="btn btn-light action-button" role="button" asp-area="Identity" asp-page="/Account/Register">Register</a>
                             }
                         </div>
@@ -102,10 +107,6 @@
         </div>
     </header>
     <partial name="_CookieConsentPartial" />
-    @*@if (ViewBag.IsDemo == "1")
-        {
-        <h2>★これは展示用モードです★</h2>
-    }*@
     <!-- 各ページの内容を表示 -->
     @RenderBody()
 

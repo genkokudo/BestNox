@@ -22,17 +22,9 @@
         /// </summary>
         public const string Connection = "DefaultConnection";
         /// <summary>
-        /// デモサイト用のDB接続設定
-        /// </summary>
-        public const string ConnectionDemo = "DemoConnection";
-        /// <summary>
         /// サブディレクトリに配置するときのパス
         /// </summary>
         public const string PathBase = "PathBase";
-        /// <summary>
-        /// サブディレクトリに配置するときのパス
-        /// </summary>
-        public const string PathBaseDemo = "PathBaseDemo";
         /// <summary>
         /// 使用するポート番号
         /// </summary>
@@ -43,11 +35,6 @@
         /// DBパスワード環境変数名
         /// </summary>
         public const string DbPasswordEnv = "DATABASE_PASSWORD";
-        /// <summary>
-        /// 展示用モードかの環境変数名
-        /// </summary>
-        public const string IsDemoEnv = "IS_DEMO";
-
 
         /// <summary>
         /// ページタイトル
