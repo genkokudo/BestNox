@@ -25,13 +25,19 @@ namespace BestNox.Controllers
         // GET: DailyRecords
         public async Task<IActionResult> Index()
         {
-            // 自分が書いたものを、日付降順でソート
-            return View(await _context.DailyRecords.Where(d => d.CreatedBy == User.Identity.Name).OrderByDescending(d => d.DocumentDate).ToListAsync());
+            // 投稿ロックかどうか
+            var isLocked = ControllerHelper.GetSubmitLocked(_context);
+            ViewData[SystemConstants.IsSubmitLocked] = isLocked;
+
+            // 自分が書いたものを、更新日時でソートしてから日付降順でソート(最近の日付が上に来て、その中で更新日時が新しい順になる)
+            return View(await _context.DailyRecords.Where(d => d.CreatedBy == User.Identity.Name).OrderByDescending(d => d.UpdatedDate).OrderByDescending(d => d.DocumentDate).ToListAsync());
         }
 
         // GET: DailyRecords/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            // 投稿ロックかどうか
+            ViewData[SystemConstants.IsSubmitLocked] = ControllerHelper.GetSubmitLocked(_context);
             if (id == null)
             {
                 return NotFound();
@@ -44,6 +50,10 @@ namespace BestNox.Controllers
                 return NotFound();
             }
 
+            // 投稿ロックかどうか
+            ViewData[SystemConstants.IsSubmitLocked] = ControllerHelper.GetSubmitLocked(_context);
+
+            // マークダウンをhtmlに変換
             ViewBag.Markdown = Markdown.ToHtml(dailyRecord.Detail);
             return View(dailyRecord);
         }
@@ -51,6 +61,12 @@ namespace BestNox.Controllers
         // GET: DailyRecords/Create
         public IActionResult Create()
         {
+            // 投稿ロック判定
+            var isLocked = ControllerHelper.GetSubmitLocked(_context);
+            if(isLocked == "1")
+            {
+                return NotFound();
+            }
             return View();
         }
 
@@ -61,6 +77,12 @@ namespace BestNox.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,DocumentDate,Title,Detail,CreatedBy,CreatedDate,UpdatedBy,UpdatedDate,IsDeleted")] DailyRecord dailyRecord)
         {
+            // 投稿ロック判定
+            var isLocked = ControllerHelper.GetSubmitLocked(_context);
+            if (isLocked == "1")
+            {
+                return NotFound();
+            }
             if (ModelState.IsValid)
             {
                 _context.Add(dailyRecord);
@@ -73,6 +95,12 @@ namespace BestNox.Controllers
         // GET: DailyRecords/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            // 投稿ロック判定
+            var isLocked = ControllerHelper.GetSubmitLocked(_context);
+            if (isLocked == "1")
+            {
+                return NotFound();
+            }
             if (id == null)
             {
                 return NotFound();
@@ -93,6 +121,12 @@ namespace BestNox.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,DocumentDate,Title,Detail,CreatedBy,CreatedDate,UpdatedBy,UpdatedDate,IsDeleted")] DailyRecord dailyRecord)
         {
+            // 投稿ロック判定
+            var isLocked = ControllerHelper.GetSubmitLocked(_context);
+            if (isLocked == "1")
+            {
+                return NotFound();
+            }
             if (id != dailyRecord.Id)
             {
                 return NotFound();
@@ -124,6 +158,12 @@ namespace BestNox.Controllers
         // GET: DailyRecords/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            // 投稿ロック判定
+            var isLocked = ControllerHelper.GetSubmitLocked(_context);
+            if (isLocked == "1")
+            {
+                return NotFound();
+            }
             if (id == null)
             {
                 return NotFound();
@@ -144,6 +184,12 @@ namespace BestNox.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            // 投稿ロック判定
+            var isLocked = ControllerHelper.GetSubmitLocked(_context);
+            if (isLocked == "1")
+            {
+                return NotFound();
+            }
             var dailyRecord = await _context.DailyRecords.FindAsync(id);
             _context.DailyRecords.Remove(dailyRecord);
             await _context.SaveChangesAsync(User.Identity.Name);

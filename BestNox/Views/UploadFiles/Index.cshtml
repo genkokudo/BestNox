@@ -7,9 +7,34 @@
 <h1>ファイルのアップロード</h1>
 <p class="text-success">@ViewBag.Address</p>
 
-<p>
-    <a asp-action="Create">新しいファイルをアップロードする</a>
-</p>
+@if (ViewData[SystemConstants.IsSubmitLocked].ToString() == "1")
+{
+    <input type="button" value="新しいファイルをアップロードする" class="btn btn-secondary" data-toggle="modal" data-target="#myModal" />
+}
+else
+{
+    <form class="form-inline" asp-action="Create">
+        <button type="submit" class="btn btn-primary">新しいファイルをアップロードする</button>
+    </form>
+}
+<!-- エラーメッセージ -->
+<div class="modal fade" id="myModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content panel-danger">
+            <div class="modal-header panel-heading" style="border-top-left-radius: inherit; border-top-right-radius: inherit;">
+                <h4 class="modal-title"><i class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></i>残念なお知らせ</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body text-danger">
+                これは展示バージョンなので、投稿や編集はできません。
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">閉じる</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <table class="table">
     <thead>
         <tr>
@@ -40,34 +65,43 @@
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Comment)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Filename)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Size)MB
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsPublic)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedBy)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsDeleted)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">編集</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">ダウンロード</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">削除</a>
-            </td>
-        </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Comment)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Filename)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Size)MB
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsPublic)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedBy)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsDeleted)
+                </td>
+                <td>
+                    @if (ViewData[SystemConstants.IsSubmitLocked].ToString() == "1")
+                    {
+                        <a data-toggle="modal" data-target="#myModal">編集</a> <div>|</div>
+                        <a asp-action="Details" asp-route-id="@item.Id">ダウンロード</a> <div>|</div>
+                        <a data-toggle="modal" data-target="#myModal">削除</a>
+                    }
+                    else
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.Id">編集</a> <div>|</div>
+                        <a asp-action="Details" asp-route-id="@item.Id">ダウンロード</a> <div>|</div>
+                        <a asp-action="Delete" asp-route-id="@item.Id">削除</a>
+                    }
+                </td>
+            </tr>
         }
     </tbody>
 </table>

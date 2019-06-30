@@ -27,7 +27,7 @@
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
             <!-- 管理者権限付与、管理者のパラメータ設定画面で表示切替できる -->
-            @if (ViewBag.IsAdminEnable == "1")
+            @if (ViewData[SystemConstants.IsRegisterAdmin].ToString() == "1")
             {
                 <div class="form-group">
                     <div class="checkbox">

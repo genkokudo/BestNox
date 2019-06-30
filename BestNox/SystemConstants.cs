@@ -110,5 +110,13 @@
         /// システムパラメータ：分類コード：システムモード切替、管理者権限登録可能
         /// </summary>
         public const int SystemPatameterModeRegisterAdmin = 2;
+        /// <summary>
+        /// ViewData：ゲストの投稿ロック
+        /// </summary>
+        public const string IsSubmitLocked = "IsSubmitLocked";
+        /// <summary>
+        /// ViewData：システムモード切替、管理者権限登録可能
+        /// </summary>
+        public const string IsRegisterAdmin = "IsRegisterAdmin";
     }
 }

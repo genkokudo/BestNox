@@ -34,6 +34,9 @@ namespace BestNox.Controllers
         // GET: UploadFiles
         public async Task<IActionResult> Index()
         {
+            // 投稿ロックかどうか
+            ViewData[SystemConstants.IsSubmitLocked] = ControllerHelper.GetSubmitLocked(_context);
+
             // 自分のファイルを検索
             // 作成順に並べ替える
             return View(await _context.UploadFiles.Where(f => f.UpdatedBy == User.Identity.Name).OrderByDescending(f => f.CreatedDate).ToListAsync());
@@ -42,6 +45,8 @@ namespace BestNox.Controllers
         // GET: UploadFiles/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            // 投稿ロックかどうか
+            ViewData[SystemConstants.IsSubmitLocked] = ControllerHelper.GetSubmitLocked(_context);
             if (id == null)
             {
                 return NotFound();
@@ -53,6 +58,8 @@ namespace BestNox.Controllers
             {
                 return NotFound();
             }
+            // 投稿ロックかどうか
+            ViewData[SystemConstants.IsSubmitLocked] = ControllerHelper.GetSubmitLocked(_context);
 
             // 公開用アドレスの表示
             if (uploadFile.IsPublic)
@@ -89,6 +96,12 @@ namespace BestNox.Controllers
         // GET: UploadFiles/Create
         public IActionResult Create()
         {
+            // 投稿ロック判定
+            var isLocked = ControllerHelper.GetSubmitLocked(_context);
+            if (isLocked == "1")
+            {
+                return NotFound();
+            }
             return View();
         }
 
@@ -99,6 +112,12 @@ namespace BestNox.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(List<IFormFile> files, [Bind("Id,Comment,Filename,TmpFilename,IsPublic,CreatedBy,CreatedDate,UpdatedBy,UpdatedDate,IsDeleted")] UploadFile uploadFile)
         {
+            // 投稿ロック判定
+            var isLocked = ControllerHelper.GetSubmitLocked(_context);
+            if (isLocked == "1")
+            {
+                return NotFound();
+            }
             if (ModelState.IsValid)
             {
                 // ファイル確認
@@ -191,6 +210,12 @@ namespace BestNox.Controllers
         // GET: UploadFiles/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            // 投稿ロック判定
+            var isLocked = ControllerHelper.GetSubmitLocked(_context);
+            if (isLocked == "1")
+            {
+                return NotFound();
+            }
             if (id == null)
             {
                 return NotFound();
@@ -212,6 +237,12 @@ namespace BestNox.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Comment,Filename,TmpFilename,IsPublic,CreatedBy,CreatedDate,UpdatedBy,UpdatedDate,IsDeleted,IsPublicOld")] UploadFile uploadFile)
         {
+            // 投稿ロック判定
+            var isLocked = ControllerHelper.GetSubmitLocked(_context);
+            if (isLocked == "1")
+            {
+                return NotFound();
+            }
             if (id != uploadFile.Id)
             {
                 return NotFound();
@@ -248,6 +279,12 @@ namespace BestNox.Controllers
         // GET: UploadFiles/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            // 投稿ロック判定
+            var isLocked = ControllerHelper.GetSubmitLocked(_context);
+            if (isLocked == "1")
+            {
+                return NotFound();
+            }
             if (id == null)
             {
                 return NotFound();
@@ -268,6 +305,12 @@ namespace BestNox.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            // 投稿ロック判定
+            var isLocked = ControllerHelper.GetSubmitLocked(_context);
+            if (isLocked == "1")
+            {
+                return NotFound();
+            }
             var uploadFile = await _context.UploadFiles.FindAsync(id);
             _context.UploadFiles.Remove(uploadFile);
             await _context.SaveChangesAsync(User.Identity.Name);

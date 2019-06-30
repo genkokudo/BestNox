@@ -71,11 +71,11 @@ namespace BestNox.Areas.Identity.Pages.Account
                 // ・初期状態の場合
                 // ・対象レコードが無いとき
                 // ・対象レコードの値が1のとき
-                ViewData["IsAdminEnable"] = "1";
+                ViewData[SystemConstants.IsRegisterAdmin] = "1";
             }
             else
             {
-                ViewData["IsAdminEnable"] = "0";
+                ViewData[SystemConstants.IsRegisterAdmin] = "0";
             }
             ReturnUrl = returnUrl;
         }

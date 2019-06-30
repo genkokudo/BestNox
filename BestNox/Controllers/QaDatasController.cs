@@ -25,6 +25,9 @@ namespace BestNox.Controllers
         // GET: QaDatas
         public async Task<IActionResult> Index()
         {
+            // 投稿ロックかどうか
+            ViewData[SystemConstants.IsSubmitLocked] = ControllerHelper.GetSubmitLocked(_context);
+
             // 背景色の設定を取得する
             ViewBag.BackList = getKeyValueList(SystemConstants.SystemPatameterMemoBack);
 
@@ -37,6 +40,9 @@ namespace BestNox.Controllers
         [HttpGet]
         public async Task<IActionResult> Index(int? categoryId)
         {
+            // 投稿ロックかどうか
+            ViewData[SystemConstants.IsSubmitLocked] = ControllerHelper.GetSubmitLocked(_context);
+
             ViewBag.BackList = getKeyValueList(SystemConstants.SystemPatameterMemoBack);
             // リストボックスで選択した条件で表示
             if (categoryId.HasValue)
@@ -50,6 +56,8 @@ namespace BestNox.Controllers
         // GET: QaDatas/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            // 投稿ロックかどうか
+            ViewData[SystemConstants.IsSubmitLocked] = ControllerHelper.GetSubmitLocked(_context);
             if (id == null)
             {
                 return NotFound();
@@ -66,6 +74,8 @@ namespace BestNox.Controllers
             {
                 ViewBag.Answer = Markdown.ToHtml(qaData.Answer);
             }
+            // 投稿ロックかどうか
+            ViewData[SystemConstants.IsSubmitLocked] = ControllerHelper.GetSubmitLocked(_context);
 
             ViewBag.SelectList = getSelectList(SystemConstants.SystemPatameterMemo, qaData.CategoryId);
             return View(qaData);
@@ -74,6 +84,12 @@ namespace BestNox.Controllers
         // GET: QaDatas/Create
         public IActionResult Create()
         {
+            // 投稿ロック判定
+            var isLocked = ControllerHelper.GetSubmitLocked(_context);
+            if (isLocked == "1")
+            {
+                return NotFound();
+            }
             ViewBag.SelectList = getSelectList(SystemConstants.SystemPatameterMemo, 0);
             return View();
         }
@@ -85,6 +101,12 @@ namespace BestNox.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Title,Question,Answer,IsSolved,RelativeNo,CategoryId,IsPublic,CreatedBy,CreatedDate,UpdatedBy,UpdatedDate,IsDeleted")] QaData qaData)
         {
+            // 投稿ロック判定
+            var isLocked = ControllerHelper.GetSubmitLocked(_context);
+            if (isLocked == "1")
+            {
+                return NotFound();
+            }
             if (ModelState.IsValid)
             {
                 _context.Add(qaData);
@@ -98,6 +120,12 @@ namespace BestNox.Controllers
         // GET: QaDatas/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            // 投稿ロック判定
+            var isLocked = ControllerHelper.GetSubmitLocked(_context);
+            if (isLocked == "1")
+            {
+                return NotFound();
+            }
             if (id == null)
             {
                 return NotFound();
@@ -120,6 +148,12 @@ namespace BestNox.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Question,Answer,IsSolved,RelativeNo,CategoryId,IsPublic,CreatedBy,CreatedDate,UpdatedBy,UpdatedDate,IsDeleted")] QaData qaData)
         {
+            // 投稿ロック判定
+            var isLocked = ControllerHelper.GetSubmitLocked(_context);
+            if (isLocked == "1")
+            {
+                return NotFound();
+            }
             if (id != qaData.Id)
             {
                 return NotFound();
@@ -152,6 +186,12 @@ namespace BestNox.Controllers
         // GET: QaDatas/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            // 投稿ロック判定
+            var isLocked = ControllerHelper.GetSubmitLocked(_context);
+            if (isLocked == "1")
+            {
+                return NotFound();
+            }
             if (id == null)
             {
                 return NotFound();
@@ -173,6 +213,12 @@ namespace BestNox.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            // 投稿ロック判定
+            var isLocked = ControllerHelper.GetSubmitLocked(_context);
+            if (isLocked == "1")
+            {
+                return NotFound();
+            }
             var qaData = await _context.QaDatas.FindAsync(id);
             _context.QaDatas.Remove(qaData);
             await _context.SaveChangesAsync(User.Identity.Name);
