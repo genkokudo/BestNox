@@ -77,15 +77,19 @@ else
                 <td>
                     @if (ViewData[SystemConstants.IsSubmitLocked].ToString() == "1")
                     {
-                        <a data-toggle="modal" data-target="#myModal">編集</a> <div>|</div>
-                        <a asp-action="Details" asp-route-id="@item.Id">詳細</a> <div>|</div>
+                    <div>
+                        <a data-toggle="modal" data-target="#myModal">編集</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">詳細</a> |
                         <a data-toggle="modal" data-target="#myModal">削除</a>
+                    </div>
                     }
                     else
-                    {<div>
+                    {
+                    <div>
                         <a asp-action="Edit" asp-route-id="@item.Id">編集</a> |
                         <a asp-action="Details" asp-route-id="@item.Id">詳細</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">削除</a></div>
+                        <a asp-action="Delete" asp-route-id="@item.Id">削除</a>
+                    </div>
                     }
                 </td>
             </tr>
