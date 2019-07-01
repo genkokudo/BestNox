@@ -15,7 +15,7 @@
 書いてあることは出鱈目なので真に受けないでください。*  
 ※トップページや各フッターに未実装のボタンやリンクがありますが、ミスではありません。
 
-![BestNox BestNox](https://user-images.githubusercontent.com/39305262/56458538-11ce0e00-63c3-11e9-8048-00aa8a816ff6.png)
+![BestNox BestNox](https://user-images.githubusercontent.com/39305262/60418546-2843e180-9c1e-11e9-8681-246baa27d2d5.png)
 
 ## はじめに
 開発や検証ができるまでの手順を説明します。
